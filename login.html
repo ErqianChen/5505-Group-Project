@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Page title -->
+    <h2 class="auth-title">Start your new day</h2>
+
+    <!-- Login form -->
+    <form class="auth-form" onsubmit="handleLogin(event)">
+      
+      <!-- Username field with floating label -->
+      <div class="input-group">
+        <input
+          type="text"
+          id="login-username"
+          name="username"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="login-username">Username</label>
+      </div>
+      
+      <!-- Password field with floating label -->
+      <div class="input-group">
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="login-password">Password</label>
+      </div>
+      
+      <!-- Forgot password -->
+      <a href="forgot_password.html" class="auth-alt-link small-link">
+        Forgot Password?
+      </a>
+      
+      <!-- Login button -->
+      <button type="submit" class="auth-button">Login</button>
+    </form>
+
+    <!-- Link to sign-up page -->
+    <a href="signup.html" class="auth-alt-link">
+      Don’t have an account? Sign Up
+    </a>
+  </div>
+
+
+    <!-- MOCK LOGIN (delete later!!!) -->
+    <script>
+      function handleLogin(event) {
+        event.preventDefault(); // 阻止默认提交
+        // 模拟登录成功后跳转
+        window.location.href = "main.html";
+      }
+    </script>
+
+</body>
+</html>
