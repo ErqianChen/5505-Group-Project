@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main page</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .tab { display: none; padding: 20px; }
+        .tab.active { display: block; }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #fff;
+            border-top: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .nav-item img { width: 24px; height: 24px; }
+    </style>
+</head>
+<body>
+    <!-- Home Tab -->
+    <div id="tab-home" class="tab active">
+        <h1>WORKOUTS</h1>
+        <input type="text" placeholder="Search everything here" style="width: 90%; padding: 10px; border-radius: 20px; border: 1px solid #333;">
+        <div><img src="img/workout1.png" style="width: 100%;"><p>Workout Videos</p></div>
+        <div><img src="img/workout2.png" style="width: 100%;"><p>Live</p></div>
+        <div><img src="img/workout3.png" style="width: 100%;"><p>Classic Workouts</p></div>
+    </div>
+
+    <!-- Game Tab -->
+    <div id="tab-game" class="tab">
+        <h1>RUNNING</h1>
+        <img src="img/running.jpg" style="width: 100%;">
+        <button style="margin-top: 20px; padding: 10px 20px; font-size: 16px;">START</button>
+    </div>
+
+    <!-- Social Tab -->
+    <div id="tab-social" class="tab">
+        <h1>FRIENDS</h1>
+        <textarea placeholder="What's in your mind?" style="width: 100%; height: 60px;"></textarea>
+        <div style="border: 1px solid #ccc; margin-top: 10px; padding: 10px;">
+            <p><strong>Username</strong></p>
+            <p>Hello world</p>
+            <img src="img/lift.jpg" style="width: 100%;">
+        </div>
+    </div>
+
+    <!-- My Tab -->
+    <div id="tab-my" class="tab">
+        <div style="text-align: center; padding: 20px; background: #000; color: #fff;">
+            <img src="img/user.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
+            <h3>Username</h3>
+            <p>coins = 66</p>
+        </div>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Information</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Plan</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Collection</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">Browsing History</li>
+        </ul>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="nav-bar">
+        <div class="nav-item" onclick="switchTab('home')">Home</div>
+        <div class="nav-item" onclick="switchTab('game')">Game</div>
+        <div class="nav-item" onclick="switchTab('social')">Social</div>
+        <div class="nav-item" onclick="switchTab('my')">My</div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
