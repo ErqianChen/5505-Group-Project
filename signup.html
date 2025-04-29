@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Page title -->
+    <h2 class="auth-title">Create your account</h2>
+
+    <!-- Sign‑up form -->
+    <form class="auth-form" method="POST" action="/signup">
+      
+      <!-- Username field -->
+      <div class="input-group">
+        <input
+          type="text"
+          id="signup-username"
+          name="username"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="signup-username">Username</label>
+      </div>
+      
+      <!-- Email field -->
+      <div class="input-group">
+        <input
+          type="email"
+          id="signup-email"
+          name="email"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="signup-email">Email</label>
+      </div>
+      
+      <!-- Password field -->
+      <div class="input-group">
+        <input
+          type="password"
+          id="signup-password"
+          name="password"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="signup-password">Password</label>
+      </div>
+      
+      <!-- Confirm password field -->
+      <div class="input-group">
+        <input
+          type="password"
+          id="signup-confirm"
+          name="confirm"
+          class="auth-input"
+          placeholder=" "
+          required
+        />
+        <label for="signup-confirm">Confirm Password</label>
+      </div>
+
+      <!-- Sign Up button -->
+      <button type="submit" class="auth-button">Sign Up</button>
+    </form>
+
+    <!-- Back to login -->
+    <a href="login.html" class="auth-alt-link">
+      Already have an account? Login
+    </a>
+  </div>
+</body>
+</html>
