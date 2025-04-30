@@ -29,17 +29,17 @@
     </style>
 </head>
 <body>
-    <!-- Home Tab -->
-    <div id="tab-home" class="tab active">
+    <!-- Workout Tab -->
+    <div id="tab-workout" class="tab active">
         <h1>WORKOUTS</h1>
         <input type="text" placeholder="Search everything here" style="width: 90%; padding: 10px; border-radius: 20px; border: 1px solid #333;">
-        <div><img src="workout1.png" style="width: 100%;"><p>Workout Videos</p></div>
-        <div><img src="workout2.png" style="width: 100%;"><p>Live</p></div>
-        <div><img src="workout3.png" style="width: 100%;"><p>Classic Workouts</p></div>
+        <div><img src="img/workout1.png" style="width: 100%;"><p>Workout Videos</p></div>
+        <div><img src="img/workout2.png" style="width: 100%;"><p>Live</p></div>
+        <div><img src="img/workout3.png" style="width: 100%;"><p>Classic Workouts</p></div>
     </div>
 
-    <!-- Game Tab -->
-    <div id="tab-game" class="tab">
+    <!-- Record Tab -->
+    <div id="tab-record" class="tab">
         <h1>RUNNING</h1>
         <img src="img/running.jpg" style="width: 100%;">
         <button style="margin-top: 20px; padding: 10px 20px; font-size: 16px;">START</button>
@@ -56,8 +56,8 @@
         </div>
     </div>
 
-    <!-- My Tab -->
-    <div id="tab-my" class="tab">
+    <!-- Account Tab -->
+    <div id="tab-account" class="tab">
         <div style="text-align: center; padding: 20px; background: #000; color: #fff;">
             <img src="img/user.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
             <h3>Username</h3>
@@ -73,10 +73,10 @@
 
     <!-- Bottom Nav -->
     <div class="nav-bar">
-        <div class="nav-item" onclick="switchTab('home')">Home</div>
-        <div class="nav-item" onclick="switchTab('game')">Game</div>
+        <div class="nav-item" onclick="switchTab('workout')">Workout</div>
+        <div class="nav-item" onclick="switchTab('record')">Record</div>
         <div class="nav-item" onclick="switchTab('social')">Social</div>
-        <div class="nav-item" onclick="switchTab('my')">My</div>
+        <div class="nav-item" onclick="switchTab('account')">Account</div>
     </div>
 
     <script>

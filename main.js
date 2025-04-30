@@ -1,13 +1,13 @@
 function navigateTo(page) {
     let content = document.getElementById('main-content');
     
-    if (page === 'home') {
-        content.innerHTML = '<h1>Home Page</h1>';
-    } else if (page === 'game') {
-        content.innerHTML = '<h1>Game Page</h1>';
+    if (page === 'workout') {
+        content.innerHTML = '<h1>Workout Page</h1>';
+    } else if (page === 'record') {
+        content.innerHTML = '<h1>Record Page</h1>';
     } else if (page === 'social') {
         content.innerHTML = '<h1>Social Page</h1>';
-    } else if (page === 'my') {
+    } else if (page === 'Account') {
         content.innerHTML = `
             <div class="profile-header">
                 <img src="your_avatar_url.png" alt="Avatar">
