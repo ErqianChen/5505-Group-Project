@@ -1,14 +1,24 @@
+/*
+    Front 
+*/
 body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
+/*
+    Make sure no empty
+*/
 #main-content {
     min-height: 90vh;
     padding: 20px;
     background-color: #f9f9f9;
 }
 
+/*
+    Bottom basic design
+
+*/
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -18,6 +28,10 @@ body {
     border-top: 1px solid #ccc;
 }
 
+/*
+    Bottom block occupy area in average include future icon added
+    
+*/
 .nav-item {
     flex: 1;
     text-align: center;
@@ -26,12 +40,21 @@ body {
     cursor: pointer;
 }
 
+/*
+    imgic design
+    
+*/
 .nav-item img {
     width: 24px;
     height: 24px;
     display: block;
     margin: 0 auto 5px;
 }
+
+/*
+    personal page design
+    
+*/
 .profile-header {
     background-color: black;
     color: white;
