@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Workout Logs</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .back-button {
+      margin-bottom: 20px;
+    }
+
+    .back-button a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #007aff;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .card-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      width: 300px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      color: #007aff;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back-button">
+      <a href="workout_page.html">← Back</a>
+    </div>
+    <h2 class="section-title">What do we want to do today?</h2>
+    <div class="card-section">
+      <a href="#" class="card">Cardio</a>
+      <a href="#" class="card">Strength</a>
+    </div>
+  </div>
+</body>
+</html>
