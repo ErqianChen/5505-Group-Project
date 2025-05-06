@@ -4,62 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main page</title>
-    <link rel="stylesheet" href="main.css">
-    <style>
-        body { margin: 0; font-family: Arial, sans-serif; }
-        .tab { display: none; padding: 20px; }
-        .tab.active { display: block; }
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            background: #fff;
-            border-top: 1px solid #ccc;
-            padding: 10px 0;
-        }
-        .nav-item {
-            text-align: center;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .nav-item img { width: 24px; height: 24px; }
-    </style>
+    <!-- Temporarily using flat file layout -->
+    <link rel="stylesheet" href="/main.css">
+
+    <!-- jQuery and Chart.js libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Home Tab -->
-    <div id="tab-home" class="tab active">
+    <!-- Workout Tab -->
+    <div id="tab-workout" class="tab active">
         <h1>WORKOUTS</h1>
         <input type="text" placeholder="Search everything here" style="width: 90%; padding: 10px; border-radius: 20px; border: 1px solid #333;">
-        <div><img src="img/workout1.png" style="width: 100%;"><p>Workout Videos</p></div>
-        <div><img src="img/workout2.png" style="width: 100%;"><p>Live</p></div>
-        <div><img src="img/workout3.png" style="width: 100%;"><p>Classic Workouts</p></div>
+        <div><img src="/img/workout1.png" style="width: 100%;"><p>Workout Videos</p></div>
+        <div><img src="/img/workout2.png" style="width: 100%;"><p>Live</p></div>
+        <div><img src="/img/workout3.png" style="width: 100%;"><p>Classic Workouts</p></div>
     </div>
 
-    <!-- Game Tab -->
-    <div id="tab-game" class="tab">
-        <h1>RUNNING</h1>
-        <img src="img/running.jpg" style="width: 100%;">
-        <button style="margin-top: 20px; padding: 10px 20px; font-size: 16px;">START</button>
+
+
+
+
+
+
+
+
+    <!-- Record Tab -->
+    <div id="tab-record" class="tab">
+        <h1>WORKOUTS RECORD</h1>
+
+        <!-- Time range selector -->
+        <div class="record-controls">
+            <label for="record-range-select">Please Select Time Range:</label>
+            <select id="record-range-select">
+                <option value="week">Last Week</option>
+                <option value="month">Last Month</option>
+            </select>
+        </div>
+
+        <!-- Four metric cards (analysis) -->
+        <div class="metrics-cards">
+            <div class="card" style="cursor: pointer;" title="How many days in a row you’ve logged at least one workout">
+                <h4>Workout Streak</h4>
+                <p id="streak-count">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Total calories you’ve burned in the selected time range">
+                <h4>Total Calories Burnt (Cal)</h4>
+                <p id="total-calories">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Total hours you’ve exercised in the selected time range">
+                <h4>Total Workout Hours (H)</h4>
+                <p id="total-hours">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Percentage of users whose workout hours you exceed">
+                <h4>Your Percentile</h4>
+                <p id="percentile">--</p>
+            </div>
+        </div>
+
+        <!-- Three charts (visualisation) -->
+        <div class="charts-container">
+            <div class="chart-item">
+                <canvas id="line-chart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="pie-chart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="radar-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Leaderboard Header with Toggle Button -->
+        <div class="leaderboard-container collapsed" id="leaderboard-container">
+            <div class="leaderboard-header" style="display: flex; justify-content: flex-start; align-items: center;">
+                <h2 style="margin:0; padding-right:8px;">Calories Leaderboard</h2>
+                <button id="toggle-leaderboard-btn" style="margin: 0 0 0 8px;">Show All Rankings</button>
+            </div>
+            <br>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Calories</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- Social Tab -->
+
+
+
+
+
+
+
+
+    <!-- Social Tab  -->
     <div id="tab-social" class="tab">
         <h1>FRIENDS</h1>
         <textarea placeholder="What's in your mind?" style="width: 100%; height: 60px;"></textarea>
         <div style="border: 1px solid #ccc; margin-top: 10px; padding: 10px;">
             <p><strong>Username</strong></p>
             <p>Hello world</p>
-            <img src="img/lift.jpg" style="width: 100%;">
+            <img src="/img/lift.jpg" style="width: 100%;">
         </div>
     </div>
 
-    <!-- My Tab -->
-    <div id="tab-my" class="tab">
+
+
+
+
+
+
+
+
+    <!-- Account Tab -->
+    <div id="tab-account" class="tab">
         <div style="text-align: center; padding: 20px; background: #000; color: #fff;">
-            <img src="img/user.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
+            <img src="/img/user.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
             <h3>Username</h3>
             <p>coins = 66</p>
         </div>
@@ -71,20 +139,15 @@
         </ul>
     </div>
 
-    <!-- Bottom Nav -->
+    <!-- Bottom Navigation (always visible) -->
     <div class="nav-bar">
-        <div class="nav-item" onclick="switchTab('home')">Home</div>
-        <div class="nav-item" onclick="switchTab('game')">Game</div>
+        <div class="nav-item" onclick="switchTab('workout')">Workout</div>
+        <div class="nav-item" onclick="switchTab('record')">Record</div>
         <div class="nav-item" onclick="switchTab('social')">Social</div>
-        <div class="nav-item" onclick="switchTab('my')">My</div>
+        <div class="nav-item" onclick="switchTab('account')">Account</div>
     </div>
 
-    <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-        }
-    </script>
+    <!-- Main JS script -->
+    <script src="/main.js"></script>
 </body>
 </html>
-
