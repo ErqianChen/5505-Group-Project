@@ -1,12 +1,15 @@
 from flask import Flask, jsonify, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from datetime import date, datetime, timedelta
+import os
 
 # --- Flask and Database Initialization ---
 # Create the Flask application, serve static files from the project root, and use root as template folder
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
 app.config['SECRET_KEY'] = 'your_secret_key_here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -204,6 +207,40 @@ def record_leaderboard():
                    for idx, (uname, cal, hr) in enumerate(stats[:10])]
 
     return jsonify(leaderboard)
+
+#get data from cardio page
+@app.route('/log_cardio', methods=['POST'])
+def log_cardio():
+    activity = request.form.get('activity')
+    duration = int(request.form.get('duration'))
+    calories_raw = request.form.get('calories')
+    try:
+        calories = float(calories_raw) if calories_raw else 0.0
+    except ValueError:
+        calories = 0.0
+
+    user_id = get_current_user_id()
+
+    # 查找对应运动类型的 category_id
+    category = SportsCategory.query.filter(func.lower(SportsCategory.name) == activity.lower()).first()
+    if not category:
+        return "Activity type not found in database.", 400
+
+    # 暂时假设难度为 3（中等），也可以根据 activity 自定义一个逻辑
+    record = WorkoutRecord(
+        user_id=user_id,
+        category_id=category.id,
+        date=date.today(),
+        duration_min=duration,
+        difficulty=3,
+        calories_burn=calories
+    )
+
+    db.session.add(record)
+    db.session.commit()
+
+    return "Workout logged successfully!"
+
 
 # --- Render Main Page ---
 @app.route('/')

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Log Cardio</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .back-button {
+      margin-bottom: 20px;
+    }
+    .back-button a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #007aff;
+      font-weight: bold;
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    form {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+    }
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 24px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007aff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back-button">
+      <a href="log.html">← Back</a>
+    </div>
+    <h2>Log Cardio Workout</h2>
+    <form action="/log_cardio" method="POST">
+      <label for="activity">Activity Type</label>
+      <select name="activity" required>
+        <option value="running">Running</option>
+        <option value="cycling">Cycling</option>
+        <option value="jump rope">Jump Rope</option>
+      </select>
+    
+      <label for="duration">Duration (minutes)</label>
+      <input type="number" name="duration" min="1" required />
+    
+      <input type="hidden" name="weight" value="55" />
+    
+      <button type="submit">Submit</button>
+    </form>
+    
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const MET_VALUES = {
+      running: 9.8,
+      cycling: 7.5,
+      "jump rope": 12.3
+    };
+  
+    document.getElementById("cardio-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const activity = document.getElementById("activity").value;
+      const duration = parseFloat(document.getElementById("duration").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+  
+      const met = MET_VALUES[activity];
+      const calories = (met * 3.5 * weight / 200) * duration;
+      const resultText = `Estimated calories burned: ${calories.toFixed(2)} kcal`;
+  
+      document.getElementById("result").innerText = resultText;
+      document.getElementById("calories").value = calories.toFixed(2);  // ✅ 加上这行！
+      
+      // 这行可以恢复表单提交（如果你想用 form 的 POST 到 Flask）
+      e.target.submit();
+    });
+  </script>
+  
+</body>
+</html>
