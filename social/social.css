@@ -1,70 +1,4 @@
-/* Global style reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-body {
-  background-color: #f6f6f6;
-  color: #121212;
-  line-height: 1.6;
-}
-
-/* Top navigation bar */
-.nav-header {
-  position: sticky;
-  top: 0;
-  display: flex;
-  align-items: center;
-  height: 52px;
-  padding: 0 20px;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(18, 18, 18, 0.1);
-  z-index: 100;
-}
-
-.nav-logo {
-  font-size: 25px;
-  font-weight: bold;
-  color: #0066ff;
-  text-decoration: none;
-  margin-right: 25px;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-menu-item {
-  color: #8590a6;
-  text-decoration: none;
-  font-size: 15px;
-}
-
-.nav-menu-item.active {
-  color: #121212;
-  font-weight: 500;
-}
-
-.search-box {
-  margin-left: auto;
-  padding: 8px 12px;
-  background-color: #f6f6f6;
-  border-radius: 16px;
-  width: 280px;
-  border: none;
-  font-size: 14px;
-}
-
-/* Main content area */
-.container {
-  max-width: 720px;
-  margin: 20px auto;
-  padding: 0 15px;
-}
+/* Social-specific styles */
 
 /* Post card style */
 .post-card {
@@ -274,21 +208,6 @@ body {
 
 .like-button.active {
   color: #056de8;
-}
-
-/* Media queries for different devices */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 10px;
-  }
-  
-  .nav-logo {
-    margin-right: 15px;
-  }
-  
-  .search-box {
-    width: 180px;
-  }
 }
 
 /* Custom file upload button */
