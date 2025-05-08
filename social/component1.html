@@ -1,0 +1,48 @@
+<!-- Post Card Component -->
+<div class="card post-card" style="margin-bottom: 24px;">
+
+    <!-- Header: User info -->
+    <div class="post-header" style="margin-bottom: 8px;">
+      <strong class="post-username">Username123</strong>
+      <small class="post-timestamp" style="margin-left: 8px; color: #777;">2025-05-06 14:30</small>
+    </div>
+  
+    <!-- Content text -->
+    <div class="post-content" style="margin-bottom: 12px;">
+      Just finished a killer workout session! 🏋️‍♀️💦
+    </div>
+  
+    <!-- Optional image -->
+    <div class="post-image" style="margin-bottom: 12px;">
+      <img src="/img/lift.jpg" alt="workout" style="width: 100%; border-radius: 10px;">
+    </div>
+  
+    <!-- Action buttons (static icons) -->
+    <div class="post-actions" style="display: flex; gap: 20px; font-size: 18px; margin-bottom: 12px;">
+      <span class="like">❤️ 15</span>
+      <span class="comment">💬 3</span>
+      <span class="bookmark">🔖</span>
+    </div>
+  
+    <!-- Comment list -->
+    <div class="post-comments" style="border-top: 1px solid #eee; padding-top: 10px;">
+      <p><strong>Alice:</strong> Amazing progress!</p>
+      <p><strong>Bob:</strong> Go beast mode!! 💪</p>
+  
+      <!-- New comment input -->
+      <input type="text" class="comment-input" placeholder="Add a comment..." style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px;">
+    </div>
+  </div>
+  
+<!--  静态帖子卡片组件 HTML ：Post Card 组件”，你可以复用这个结构来渲染多个帖子。
+  我们先不涉及 JS 和动态数据，只构建静态 HTML 结构和样式。
+  可复用结构说明：
+.post-header	用户名 + 时间戳
+.post-content	帖子文字内容
+.post-image	可选图像（可移除该区块实现无图样式）
+.post-actions	点赞、评论、收藏图标（目前为静态 emoji）
+.post-comments	已有评论展示 + 评论输入框
+   样式风格统一
+使用你们已有 .card class 实现圆角、阴影等风格
+内部间距和颜色符合 main.css 的现有布局
+保证移动端良好显示-->
