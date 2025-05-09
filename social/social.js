@@ -52,6 +52,10 @@ const currentUser = {
 function loadPosts() {
   const posts = JSON.parse(localStorage.getItem('posts')) || [];
   const postListContainer = document.getElementById('post-list');
+  
+  // Check if the container exists (it may not if we're on a different tab)
+  if (!postListContainer) return;
+  
   postListContainer.innerHTML = '';
   
   // Sort posts by time (newest first)
@@ -60,20 +64,24 @@ function loadPosts() {
   posts.forEach(post => {
     postListContainer.appendChild(createPostElement(post));
   });
+  
+  // Set up event listeners for the newly created elements
+  setupPostEventListeners();
 }
 
 // Create post DOM element
 function createPostElement(post) {
   const postDiv = document.createElement('div');
-  postDiv.className = 'post-card';
+  postDiv.className = 'card post-card';
   postDiv.dataset.postId = post.id;
+  postDiv.style.marginBottom = '24px';
   
   // User information
   const userInfoDiv = document.createElement('div');
-  userInfoDiv.className = 'user-info';
+  userInfoDiv.className = 'post-header';
   userInfoDiv.innerHTML = `
-    <span class="username">${post.username}</span>
-    <span class="user-title">${post.timestamp}</span>
+    <strong>${post.username}</strong>
+    <small style="margin-left: 8px; color: #777;">${post.timestamp}</small>
   `;
   
   // Post content
@@ -81,67 +89,44 @@ function createPostElement(post) {
   contentDiv.className = 'post-content';
   contentDiv.textContent = post.content;
   
-  // Read more button
-  const readMoreSpan = document.createElement('span');
-  readMoreSpan.className = 'read-more';
-  readMoreSpan.textContent = 'Read more';
-  
   // Post image (if any)
-  let imageDiv = '';
+  let imageDiv = null;
   if (post.image) {
     imageDiv = document.createElement('div');
     imageDiv.className = 'post-image';
-    imageDiv.innerHTML = `<img src="${post.image}" alt="post image" onerror="this.onerror=null; this.src='img/placeholder.jpg'; this.alt='image not available';">`;
+    imageDiv.innerHTML = `<img src="${post.image}" alt="post image" style="width: 100%; border-radius: 10px;" onerror="this.onerror=null; this.src='img/placeholder.jpg'; this.alt='image not available';">`;
   }
   
   // Post action area
   const actionsDiv = document.createElement('div');
   actionsDiv.className = 'post-actions';
+  actionsDiv.style.display = 'flex';
+  actionsDiv.style.gap = '20px';
+  actionsDiv.style.fontSize = '18px';
   
-  const likeButtonClass = post.liked ? 'action-button upvote' : 'action-button';
   actionsDiv.innerHTML = `
-    <div class="like-button ${likeButtonClass}" data-post-id="${post.id}">
-      <span>${post.liked ? '❤️' : '🤍'}</span>
-      <span class="action-count">${post.likes}</span>
-    </div>
-    <div class="action-button">
-      <span>💬</span>
-      <span class="action-count">${post.comments.length}</span>
-    </div>
-    <div class="action-button">
-      <span>🔖</span>
-    </div>
-    <div class="action-button">
-      <span>...</span>
-    </div>
+    <span class="like-button" data-post-id="${post.id}">${post.liked ? '❤️' : '🤍'} ${post.likes}</span>
+    <span>💬 ${post.comments.length}</span>
+    <span>🔖</span>
   `;
   
   // Comments area
   const commentsDiv = document.createElement('div');
   commentsDiv.className = 'post-comments';
+  commentsDiv.style.borderTop = '1px solid #eee';
+  commentsDiv.style.paddingTop = '10px';
   
   let commentsHTML = '';
   post.comments.forEach(comment => {
-    commentsHTML += `
-      <div class="comment">
-        <span class="comment-username">${comment.username}:</span>
-        <span class="comment-text">${comment.text}</span>
-      </div>
-    `;
+    commentsHTML += `<p><strong>${comment.username}:</strong> ${comment.text}</p>`;
   });
   
-  commentsHTML += `
-    <div class="comment-form">
-      <input type="text" placeholder="Add a comment..." class="comment-input" data-post-id="${post.id}">
-    </div>
-  `;
-  
+  commentsHTML += `<input type="text" placeholder="Add a comment..." class="comment-input" data-post-id="${post.id}">`;
   commentsDiv.innerHTML = commentsHTML;
   
   // Assemble post elements
   postDiv.appendChild(userInfoDiv);
   postDiv.appendChild(contentDiv);
-  postDiv.appendChild(readMoreSpan);
   if (imageDiv) {
     postDiv.appendChild(imageDiv);
   }
@@ -153,14 +138,20 @@ function createPostElement(post) {
 
 // Handle post creation
 function createNewPost() {
-  const content = document.getElementById('new-post-content').value.trim();
+  const contentElement = document.getElementById('new-post-content');
+  if (!contentElement) return;
+  
+  const content = contentElement.value.trim();
   if (!content) {
     alert('Please enter some content for your post.');
     return;
   }
   
   // Read image file (if any)
-  const imageFile = document.getElementById('new-post-image').files[0];
+  const imageFileElement = document.getElementById('new-post-image');
+  if (!imageFileElement) return;
+  
+  const imageFile = imageFileElement.files[0];
   let imagePath = '';
   
   // In a real application, image should be uploaded to server
@@ -196,8 +187,8 @@ function createNewPost() {
   
   // Refresh post list and clear form
   loadPosts();
-  document.getElementById('new-post-content').value = '';
-  document.getElementById('new-post-image').value = '';
+  contentElement.value = '';
+  imageFileElement.value = '';
   
   alert('Post successfully created!');
 }
@@ -205,7 +196,7 @@ function createNewPost() {
 // Handle like functionality
 function handleLike(postId) {
   const posts = JSON.parse(localStorage.getItem('posts')) || [];
-  const postIndex = posts.findIndex(p => p.id === postId);
+  const postIndex = posts.findIndex(p => p.id === parseInt(postId));
   
   if (postIndex !== -1) {
     // Toggle like status
@@ -229,7 +220,7 @@ function addComment(postId, commentText) {
   if (!commentText.trim()) return;
   
   const posts = JSON.parse(localStorage.getItem('posts')) || [];
-  const postIndex = posts.findIndex(p => p.id === postId);
+  const postIndex = posts.findIndex(p => p.id === parseInt(postId));
   
   if (postIndex !== -1) {
     const newComment = {
@@ -243,47 +234,40 @@ function addComment(postId, commentText) {
   }
 }
 
-// Toggle read more functionality
-function toggleReadMore(event) {
-  const content = event.target.previousElementSibling;
-  if (content.style.webkitLineClamp === 'unset') {
-    content.style.webkitLineClamp = '3';
-    event.target.textContent = 'Read more';
-  } else {
-    content.style.webkitLineClamp = 'unset';
-    event.target.textContent = 'Show less';
-  }
-}
-
-// Set up event listeners
-document.addEventListener('DOMContentLoaded', () => {
-  // Load posts
-  loadPosts();
-  
-  // Post button listener
-  document.querySelector('.post-button').addEventListener('click', createNewPost);
-  
-  // Event delegation
-  document.getElementById('post-list').addEventListener('click', event => {
-    // Like button
-    if (event.target.closest('.like-button')) {
-      const likeButton = event.target.closest('.like-button');
-      const postId = parseInt(likeButton.dataset.postId);
+// Set up event listeners for post interactions
+function setupPostEventListeners() {
+  // Like button click
+  const likeButtons = document.querySelectorAll('.like-button');
+  likeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const postId = this.dataset.postId;
       handleLike(postId);
-    }
-    
-    // Read more button
-    if (event.target.classList.contains('read-more')) {
-      toggleReadMore(event);
-    }
+    });
   });
   
   // Comment input
-  document.getElementById('post-list').addEventListener('keypress', event => {
-    if (event.key === 'Enter' && event.target.classList.contains('comment-input')) {
-      const postId = parseInt(event.target.dataset.postId);
-      addComment(postId, event.target.value);
-      event.target.value = '';
-    }
+  const commentInputs = document.querySelectorAll('.comment-input');
+  commentInputs.forEach(input => {
+    input.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        const postId = this.dataset.postId;
+        addComment(postId, this.value);
+        this.value = '';
+      }
+    });
   });
-}); 
+}
+
+// Initialize event listeners when the document is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Only initialize if we're on the social tab
+  if (document.getElementById('tab-social').classList.contains('active')) {
+    loadPosts();
+  }
+  
+  // Add event listener to the post button
+  const postButton = document.querySelector('.post-button');
+  if (postButton) {
+    postButton.addEventListener('click', createNewPost);
+  }
+});

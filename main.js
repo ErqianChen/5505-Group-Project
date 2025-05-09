@@ -7,9 +7,15 @@ $(document).ready(function() {
         const tab = $(this).text().trim().toLowerCase();
         switchTab(tab);
     });
+    
+    // Initialize active tab on page load
     if ($('#tab-record').hasClass('active')) {
         loadRecord();
+    } else if ($('#tab-social').hasClass('active')) {
+        // Initialize social tab if it's active on load
+        loadPosts();
     }
+    
     $('#leaderboard-container').addClass('collapsed');
 
     // Toggle full / top-3 view
@@ -23,19 +29,32 @@ $(document).ready(function() {
         $(this).text('Show All Rankings');
       }
     });
-  });
+});
 
 function switchTab(tab) {
     $('.tab').removeClass('active');
     $('#tab-' + tab).addClass('active');
+    
+    // Initialize functionality based on active tab
     if (tab === 'record') {
         loadRecord();
+    } else if (tab === 'social') {
+        // Initialize social functionality when switching to social tab
+        loadPosts();
     }
+    
+    // Add active class to the selected nav item
+    $('.nav-item').removeClass('active');
+    $('.nav-item').filter(function() {
+        return $(this).text().trim().toLowerCase() === tab;
+    }).addClass('active');
 }
 
 function initCharts() {
     // Line chart: User vs Average daily hours
-    const ctx = document.getElementById('line-chart').getContext('2d');
+    const ctx = document.getElementById('line-chart')?.getContext('2d');
+    if (!ctx) return;
+    
     lineChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -70,7 +89,9 @@ function initCharts() {
     });
 
     // Pie chart: Aerobic vs Anaerobic
-    const pieCtx = document.getElementById('pie-chart').getContext('2d');
+    const pieCtx = document.getElementById('pie-chart')?.getContext('2d');
+    if (!pieCtx) return;
+    
     pieChart = new Chart(pieCtx, {
         type: 'doughnut',
         data: {
@@ -83,7 +104,9 @@ function initCharts() {
     });
 
     // Radar chart: Difficulty comparison
-    const radarCtx = document.getElementById('radar-chart').getContext('2d');
+    const radarCtx = document.getElementById('radar-chart')?.getContext('2d');
+    if (!radarCtx) return;
+    
     radarChart = new Chart(radarCtx, {
         type: 'radar',
         data: {
@@ -162,5 +185,3 @@ function fetchLeaderboard(range) {
         });
     });
 }
-
-
