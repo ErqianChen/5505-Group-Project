@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from datetime import date, datetime, timedelta
+from init_db import db, WorkoutPlan, FavoriteCollection, BrowsingHistory
 import os
 
 # --- Flask and Database Initialization ---
@@ -207,6 +208,103 @@ def record_leaderboard():
                    for idx, (uname, cal, hr) in enumerate(stats[:10])]
 
     return jsonify(leaderboard)
+
+# --- Page Account: My Information ---
+@app.route('/api/user/info', methods=['GET'])
+def get_user_info():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'Not logged in'}), 401
+    user = User.query.get(user_id)
+    return jsonify({
+        'username': user.username,
+        'email': user.email,
+        'created_at': user.created_at.strftime('%Y-%m-%d')
+    })
+
+# --- Page Account: My Collection ---
+@app.route('/api/user/collections', methods=['GET'])
+def get_user_collections():
+    user_id = session.get('user_id')
+    items = FavoriteCollection.query.filter_by(user_id=user_id).all()
+    return jsonify([{'title': i.title, 'type': i.content_type} for i in items])
+
+# --- Page Account: Browsing History ---
+@app.route('/api/user/history', methods=['GET'])
+def get_user_history():
+    user_id = session.get('user_id')
+    logs = BrowsingHistory.query.filter_by(user_id=user_id).order_by(BrowsingHistory.timestamp.desc()).limit(20)
+    return jsonify([{
+        'action': log.action,
+        'timestamp': log.timestamp.strftime('%Y-%m-%d %H:%M')
+    } for log in logs])
+
+# --- Page Account: My plan ---
+@app.route('/api/user/plan/add', methods=['POST'])
+def add_plan():
+    user_id = session.get('user_id', 1)  # 默认 1
+    data = request.get_json()
+    try:
+        plan = WorkoutPlan(
+            user_id=user_id,
+            activity=data['activity'],
+            start_time=datetime.fromisoformat(data['start']),
+            end_time=datetime.fromisoformat(data['end'])
+        )
+        db.session.add(plan)
+        db.session.commit()
+        return jsonify({'success': True, 'id': plan.id})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/plans', methods=['GET'])
+def get_plans():
+    user_id = session.get('user_id', 1)
+    date_str = request.args.get('date')
+    if date_str:
+        try:
+            date_obj = datetime.fromisoformat(date_str)
+            start = date_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+            end = date_obj.replace(hour=23, minute=59, second=59, microsecond=999999)
+            plans = WorkoutPlan.query.filter(
+                WorkoutPlan.user_id == user_id,
+                WorkoutPlan.start_time >= start,
+                WorkoutPlan.start_time <= end
+            ).all()
+        except ValueError:
+            return jsonify({'error': 'Invalid date format'}), 400
+    else:
+        plans = WorkoutPlan.query.filter_by(user_id=user_id).all()
+
+    return jsonify([{
+        'id': plan.id,
+        'activity': plan.activity,
+        'start_time': plan.start_time.isoformat(),
+        'end_time': plan.end_time.isoformat()
+    } for plan in plans])
+
+@app.route('/api/plans/<int:plan_id>', methods=['PUT'])
+def update_plan(plan_id):
+    user_id = session.get('user_id', 1)
+    data = request.get_json()
+    plan = WorkoutPlan.query.get(plan_id)
+
+    if not plan or plan.user_id != user_id:
+        return jsonify({'success': False, 'error': 'Plan not found or permission denied'}), 404
+
+    try:
+        plan.activity = data['activity']
+        plan.start_time = datetime.fromisoformat(data['start'])
+        plan.end_time = datetime.fromisoformat(data['end'])
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/my_plan')
+def my_plan_page():
+    return render_template('my_plan.html')
 
 #get data from cardio page
 @app.route('/log_cardio', methods=['POST'])

@@ -167,6 +167,34 @@ class Bookmark(db.Model):
     user = db.relationship('User', back_populates='bookmarks')
     post = db.relationship('Post', back_populates='bookmarks')
 
+class WorkoutPlan(db.Model):
+    __tablename__ = 'workout_plans'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    activity = db.Column(db.String(100), nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
+    end_time = db.Column(db.DateTime, nullable=False)
+
+    user = db.relationship('User', backref='plans')
+    
+class FavoriteCollection(db.Model):
+    __tablename__ = 'favorite_collections'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    content_type = db.Column(db.String(50), nullable=False)  # 例："video", "tutorial", "post", etc.
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User')
+    
+class BrowsingHistory(db.Model):
+    __tablename__ = 'browsing_history'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    action = db.Column(db.String(200), nullable=False)  # 描述行为，如 “查看了教程xxx”
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User')
 
 # -----------------------------------
 # Database Initialization and Mock Data
