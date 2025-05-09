@@ -6,6 +6,8 @@
     <title>Main page</title>
     <!-- Temporarily using flat file layout -->
     <link rel="stylesheet" href="/main.css">
+    <!-- Add social styles -->
+    <link rel="stylesheet" href="/social.css">
 
     <!-- jQuery and Chart.js libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -33,14 +35,6 @@
           
     </div>
 
-
-
-
-
-
-
-
-
     <!-- Record Tab -->
     <div id="tab-record" class="tab">
         <h1>WORKOUTS RECORD</h1>
@@ -56,15 +50,15 @@
 
         <!-- Four metric cards (analysis) -->
         <div class="metrics-cards">
-            <div class="card" style="cursor: pointer;" title="How many days in a row you’ve logged at least one workout">
+            <div class="card" style="cursor: pointer;" title="How many days in a row you've logged at least one workout">
                 <h4>Workout Streak</h4>
                 <p id="streak-count">--</p>
             </div>
-            <div class="card" style="cursor: pointer;" title="Total calories you’ve burned in the selected time range">
+            <div class="card" style="cursor: pointer;" title="Total calories you've burned in the selected time range">
                 <h4>Total Calories Burnt (Cal)</h4>
                 <p id="total-calories">--</p>
             </div>
-            <div class="card" style="cursor: pointer;" title="Total hours you’ve exercised in the selected time range">
+            <div class="card" style="cursor: pointer;" title="Total hours you've exercised in the selected time range">
                 <h4>Total Workout Hours (H)</h4>
                 <p id="total-hours">--</p>
             </div>
@@ -109,32 +103,35 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-    <!-- Social Tab  -->
+    <!-- Social Tab (Integrated from social.html) -->
     <div id="tab-social" class="tab">
-        <h1>FRIENDS</h1>
-        <textarea placeholder="What's in your mind?" style="width: 100%; height: 60px;"></textarea>
-        <div style="border: 1px solid #ccc; margin-top: 10px; padding: 10px;">
-            <p><strong>Username</strong></p>
-            <p>Hello world</p>
-            <img src="/img/lift.jpg" style="width: 100%;">
+        <h1>FRIENDS' MOMENTS</h1>
+        
+        <!-- Post creation form -->
+        <div class="card post-card" style="margin-bottom: 30px;">
+            <h4 style="margin-bottom: 10px; font-size: 18px; color: #333;">Create a Post</h4>
+            
+            <textarea id="new-post-content"
+                placeholder="What's on your mind?"
+                style="width: 100%; height: 80px; padding: 10px;
+                       border-radius: 8px; border: 1px solid #ccc;
+                       font-size: 15px; resize: vertical;"></textarea>
+            
+            <div style="margin-top: 12px;">
+                <label for="new-post-image" style="font-size: 14px; color: #555;">Upload an image (optional):</label><br>
+                <input type="file" id="new-post-image" accept="image/*" style="margin-top: 5px;">
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button class="post-button">Post</button>
+            </div>
+        </div>
+        
+        <!-- Posts list container -->
+        <div id="post-list">
+            <!-- Posts will be dynamically loaded here by social.js -->
         </div>
     </div>
-
-
-
-
-
-
-
-
 
     <!-- Account Tab -->
     <div id="tab-account" class="tab">
@@ -161,5 +158,7 @@
 
     <!-- Main JS script -->
     <script src="/main.js"></script>
+    <!-- Add social JS -->
+    <script src="/social.js"></script>
 </body>
 </html>
