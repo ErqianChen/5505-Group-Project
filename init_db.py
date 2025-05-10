@@ -1,8 +1,4 @@
-"""
-This initializes the SQLite database for the Exercise Tracking Application.
-It defines the database schema, creates tables, and inserts mock data.
-"""
-
+import os
 import random
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -10,8 +6,11 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime, date, timedelta
 
 # Initialize Flask app and configure SQLite database
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
+app.config['SECRET_KEY'] = 'your_secret_key_here'
+# Use absolute path so the SQLite file is created in the project root, not in the instance folder
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -55,7 +54,7 @@ class SportsCategory(db.Model):
     __tablename__ = 'sports_categories'
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String(80), unique=True, nullable=False)
-    met_value  = db.Column(db.Float)  # Metabolic Equivalent of Task (MET) value for the activity
+    met_value  = db.Column(db.Float)  # MET value for the activity
 
     # Relationships
     records    = db.relationship('WorkoutRecord', back_populates='category', cascade='all, delete-orphan')
@@ -175,32 +174,34 @@ class WorkoutPlan(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
 
+    # Relationship
     user = db.relationship('User', backref='plans')
-    
+
 class FavoriteCollection(db.Model):
     __tablename__ = 'favorite_collections'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     title = db.Column(db.String(200), nullable=False)
-    content_type = db.Column(db.String(50), nullable=False)  # 例："video", "tutorial", "post", etc.
+    content_type = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationship
     user = db.relationship('User')
-    
+
 class BrowsingHistory(db.Model):
     __tablename__ = 'browsing_history'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    action = db.Column(db.String(200), nullable=False)  # 描述行为，如 “查看了教程xxx”
+    action = db.Column(db.String(200), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationship
     user = db.relationship('User')
 
 # -----------------------------------
 # Database Initialization and Mock Data
 # -----------------------------------
 def init_db():
-    """Initialize the database and insert mock data step by step."""
     db.drop_all()
     db.create_all()
 
@@ -273,14 +274,12 @@ def init_db():
 
     # 5. Insert Tutorials for various levels
     tutorials_data = [
-        # (category_name, level, title, url)
         ('Running',       1, 'Beginner Running Drills',         'https://youtu.be/run-beg1'),
         ('Running',       3, 'Intermediate Interval Training',  'https://youtu.be/run-int3'),
         ('Running',       5, 'Advanced Marathon Prep',         'https://youtu.be/run-adv5'),
         ('Yoga',          1, 'Yoga for Total Beginners',        'https://youtu.be/yoga-beg1'),
         ('Yoga',          3, 'Power Yoga Sequence',            'https://youtu.be/yoga-int3'),
-        ('Yoga',          5, 'Advanced Yoga Flows',            'https://youtu.be/yoga-adv5'),
-        # ... add more tutorials as needed ...
+        ('Yoga',          5, 'Advanced Yoga Flows',            'https://youtu.be/yoga-adv5')
     ]
     for cname, lvl, title, link in tutorials_data:
         tut = Tutorial(
@@ -296,35 +295,23 @@ def init_db():
     start_date = date.today() - timedelta(days=89)
     total_days = 90
     for i, user in enumerate(users):
-        # Determine training intensity by user index: even-indexed users train 6 days/week, odd-indexed users train 4 days/week
-        rest_day_offset = i % 7  # Which weekday the user rests each week (0=Monday ... 6=Sunday)
+        rest_day_offset = i % 7
         for day_offset in range(total_days):
             current_day = start_date + timedelta(days=day_offset)
             weekday = day_offset % 7
-            # Heavy trainers: rest one day per week; light trainers: rest three days per week
             if i % 2 == 0:
-                # Heavy trainer: skip the rest day
                 if weekday == rest_day_offset:
                     continue
             else:
-                # Light trainer: rest on three specific weekdays
                 rest_days = (rest_day_offset, (rest_day_offset+2)%7, (rest_day_offset+4)%7)
                 if weekday in rest_days:
                     continue
-
-            # Rotate through exercise categories to increase variety
             cname = categories[(day_offset * (i+1)) % len(categories)][0]
             cat = cat_objs[cname]
-
-            # Calculate duration: 30–75 minutes cycling by formula
             duration = 30 + ((day_offset * 5 + i*3) % 46)
-            # Calculate difficulty: cycle through 1–5
             difficulty = 1 + ((day_offset + i) % 5)
-
-            # Compute calories: (duration in hours) × MET × user weight
             weight = profiles_data[i][1]
             calories = duration / 60 * cat.met_value * weight
-
             rec = WorkoutRecord(
                 user_id=user.id,
                 category_id=cat.id,
@@ -334,12 +321,8 @@ def init_db():
                 calories_burn=round(calories, 2)
             )
             db.session.add(rec)
-
-        # Commit the records for each user after insertion
         db.session.commit()
 
-
-        
     # 7. Insert Shares (each user's first record to the next user)
     all_records = WorkoutRecord.query.order_by(WorkoutRecord.id).all()
     for idx, rec in enumerate(all_records[:-1]):
@@ -351,7 +334,7 @@ def init_db():
         db.session.add(share)
     db.session.commit()
 
-    # 8. Insert Posts (2 per user), Comments, Likes, Bookmarks
+    # 8. Insert Posts, Comments, Likes, Bookmarks
     posts = []
     for i, user in enumerate(users):
         p1 = Post(
@@ -359,31 +342,57 @@ def init_db():
             record_id=all_records[i].id,
             content=f"{user.username} completed a {all_records[i].duration_min}-min {all_records[i].category.name} session!"
         )
-        p2 = Post(
-            user_id=user.id,
-            content=f"Keep going! {user.username} is crushing it this week!"
-        )
+        p2 = Post(user_id=user.id, content=f"Keep going! {user.username} is crushing it this week!")
         db.session.add(p1); db.session.commit(); posts.append(p1)
         db.session.add(p2); db.session.commit(); posts.append(p2)
-
     for idx, post in enumerate(posts[:len(users)]):
-        c1 = Comment(post_id=post.id, user_id=users[(idx+1) % len(users)].id,
-                     content="Awesome work!")
-        c2 = Comment(post_id=post.id, user_id=users[(idx+2) % len(users)].id,
-                     content="Keep it up!")
+        c1 = Comment(post_id=post.id, user_id=users[(idx+1) % len(users)].id, content="Awesome work!")
+        c2 = Comment(post_id=post.id, user_id=users[(idx+2) % len(users)].id, content="Keep it up!")
         db.session.add(c1); db.session.add(c2)
     db.session.commit()
-
     first_post = posts[0]
     for user in users:
-        like = Like(user_id=user.id, post_id=first_post.id)
-        db.session.add(like)
+        db.session.add(Like(user_id=user.id, post_id=first_post.id))
     db.session.commit()
-
     for idx, user in enumerate(users):
         target = posts[(idx*2 + 1) % len(posts)]
-        bookmark = Bookmark(user_id=user.id, post_id=target.id)
-        db.session.add(bookmark)
+        db.session.add(Bookmark(user_id=user.id, post_id=target.id))
+    db.session.commit()
+
+    # 9. Insert Workout Plans
+    # Create one plan per user for demonstration
+    for user in users:
+        plan = WorkoutPlan(
+            user_id=user.id,
+            activity=random.choice(['Morning Run', 'Evening Yoga', 'Strength Training']),
+            start_time=datetime.utcnow(),
+            end_time=datetime.utcnow() + timedelta(hours=1)
+        )
+        db.session.add(plan)
+    db.session.commit()
+
+    # 10. Insert Favorite Collections
+    # Each user saves one collection of type 'tutorial'
+    for user in users:
+        fav = FavoriteCollection(
+            user_id=user.id,
+            title=f"{user.username}'s Favorite Tutorials",
+            content_type='tutorial'
+        )
+        db.session.add(fav)
+    db.session.commit()
+
+    # 11. Insert Browsing History
+    # Add a few actions per user
+    actions = ['Viewed tutorial', 'Liked post', 'Saved workout', 'Edited profile']
+    for user in users:
+        for _ in range(3):
+            hist = BrowsingHistory(
+                user_id=user.id,
+                action=random.choice(actions),
+                timestamp=datetime.utcnow() - timedelta(minutes=random.randint(0, 120))
+            )
+            db.session.add(hist)
     db.session.commit()
 
     print("Database initialized with full schema and mock data.")
