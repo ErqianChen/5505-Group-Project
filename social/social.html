@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Feed</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="social.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="tab active" style="padding: 40px 20px; max-width: 720px; margin: auto;">
+
+    <!-- title -->
+    <h1 style="margin-bottom: 20px;">Friends' Moments</h1>
+
+    <!-- post -->
+    <div class="card post-card" style="margin-bottom: 30px;">
+      <h4 style="margin-bottom: 10px; font-size: 18px; color: #333;">Create a Post</h4>
+
+      <textarea id="new-post-content"
+                placeholder="What's on your mind?"
+                style="width: 100%; height: 80px; padding: 10px;
+                       border-radius: 8px; border: 1px solid #ccc;
+                       font-size: 15px; resize: vertical;"></textarea>
+
+      <div style="margin-top: 12px;">
+        <label for="new-post-image" style="font-size: 14px; color: #555;">Upload an image (optional):</label><br>
+        <input type="file" id="new-post-image" accept="image/*" style="margin-top: 5px;">
+      </div>
+
+      <div style="margin-top: 15px;">
+        <button class="post-button" onclick="alert('Post submitted (static placeholder)')">Post</button>
+      </div>
+    </div>
+
+    <!-- list -->
+    <div id="post-list">
+
+      <!-- Post 1 -->
+      <div class="card post-card" style="margin-bottom: 24px;">
+        <div class="post-header">
+          <strong>Username123</strong>
+          <small style="margin-left: 8px; color: #777;">2025-05-06 14:30</small>
+        </div>
+        <div class="post-content">Just finished a killer workout session! 🏋️‍♀️💦</div>
+        <div class="post-image">
+          <img src="/img/lift.jpg" alt="workout" style="width: 100%; border-radius: 10px;">
+        </div>
+        <div class="post-actions" style="display: flex; gap: 20px; font-size: 18px;">
+          <span>❤️ 15</span><span>💬 2</span><span>🔖</span>
+        </div>
+        <div class="post-comments" style="border-top: 1px solid #eee; padding-top: 10px;">
+          <p><strong>Alice:</strong> Amazing progress!</p>
+          <p><strong>Bob:</strong> Go beast mode!! 💪</p>
+          <input type="text" placeholder="Add a comment..." class="comment-input">
+        </div>
+      </div>
+
+      <!-- Post 2 -->
+      <div class="card post-card" style="margin-bottom: 24px;">
+        <div class="post-header">
+          <strong>EmilyFit</strong>
+          <small style="margin-left: 8px; color: #777;">2025-05-06 10:15</small>
+        </div>
+        <div class="post-content">Tried morning yoga 🧘‍♀️— feel calm and centered.</div>
+        <div class="post-actions" style="display: flex; gap: 20px; font-size: 18px;">
+          <span>❤️ 7</span><span>💬 0</span><span>🔖</span>
+        </div>
+        <div class="post-comments" style="border-top: 1px solid #eee; padding-top: 10px;">
+          <input type="text" placeholder="Add a comment..." class="comment-input">
+        </div>
+      </div>
+
+      <!-- Post 3 -->
+      <div class="card post-card" style="margin-bottom: 24px;">
+        <div class="post-header">
+          <strong>StrongMike</strong>
+          <small style="margin-left: 8px; color: #777;">2025-05-05 18:45</small>
+        </div>
+        <div class="post-content">Pushed my limits on bench press today! 💪🔥</div>
+        <div class="post-image">
+          <img src="/img/bench.jpg" alt="bench press" style="width: 100%; border-radius: 10px;">
+        </div>
+        <div class="post-actions" style="display: flex; gap: 20px; font-size: 18px;">
+          <span>❤️ 20</span><span>💬 3</span><span>🔖</span>
+        </div>
+        <div class="post-comments" style="border-top: 1px solid #eee; padding-top: 10px;">
+          <p><strong>Tom:</strong> Beast mode!!</p>
+          <p><strong>Jess:</strong> Respect 👏</p>
+          <p><strong>Ella:</strong> 🔥🔥🔥</p>
+          <input type="text" placeholder="Add a comment..." class="comment-input">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
