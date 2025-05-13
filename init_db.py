@@ -1,3 +1,6 @@
+# This script initializes the database with mock data for a fitness application.
+# Forgot to mention on the PR comment: The default password for all users is 'password'!
+
 from flask import Flask
 from models import (
     db,
