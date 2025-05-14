@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,72 +8,46 @@
 </head>
 <body>
   <div class="auth-container">
-    <!-- Page title -->
-    <h2 class="auth-title">Create your account</h2>
-
-    <!-- Sign‑up form -->
-    <form class="auth-form" method="POST" action="/signup">
-      
-      <!-- Username field -->
+    <h2 class="auth-title">Create Account</h2>
+    <form class="auth-form" onsubmit="handleSignup(event)">
       <div class="input-group">
-        <input
-          type="text"
-          id="signup-username"
-          name="username"
-          class="auth-input"
-          placeholder=" "
-          required
-        />
+        <input type="text" id="signup-username" name="username" class="auth-input" placeholder=" " required />
         <label for="signup-username">Username</label>
       </div>
-      
-      <!-- Email field -->
       <div class="input-group">
-        <input
-          type="email"
-          id="signup-email"
-          name="email"
-          class="auth-input"
-          placeholder=" "
-          required
-        />
+        <input type="email" id="signup-email" name="email" class="auth-input" placeholder=" " required />
         <label for="signup-email">Email</label>
       </div>
-      
-      <!-- Password field -->
       <div class="input-group">
-        <input
-          type="password"
-          id="signup-password"
-          name="password"
-          class="auth-input"
-          placeholder=" "
-          required
-        />
+        <input type="password" id="signup-password" name="password" class="auth-input" placeholder=" " required />
         <label for="signup-password">Password</label>
       </div>
-      
-      <!-- Confirm password field -->
-      <div class="input-group">
-        <input
-          type="password"
-          id="signup-confirm"
-          name="confirm"
-          class="auth-input"
-          placeholder=" "
-          required
-        />
-        <label for="signup-confirm">Confirm Password</label>
-      </div>
-
-      <!-- Sign Up button -->
       <button type="submit" class="auth-button">Sign Up</button>
     </form>
-
-    <!-- Back to login -->
-    <a href="login.html" class="auth-alt-link">
-      Already have an account? Login
-    </a>
+    <a href="login.html" class="auth-alt-link">Already have an account? Log In</a>
   </div>
+
+  <script>
+    async function handleSignup(event) {
+      event.preventDefault();
+      const username = document.getElementById('signup-username').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert('Signup successful! Please login.');
+        window.location.href = 'login.html';
+      } else {
+        alert('Signup failed: ' + (data.error || 'Unknown error'));
+      }
+    }
+  </script>
 </body>
 </html>
