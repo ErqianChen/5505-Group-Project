@@ -70,25 +70,37 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    post_id = db.Column(db.Integer, nullable=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='comments')
+    # post = db.relationship('Post', back_populates='comments')  # 可选
 
 class Like(db.Model):
     __tablename__ = 'likes'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    post_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='likes')
+    # post = db.relationship('Post', back_populates='likes')  # 可选
 
 class Bookmark(db.Model):
     __tablename__ = 'bookmarks'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    post_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='bookmarks')
+    # post = db.relationship('Post', back_populates='bookmarks')  # 可选
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship('User', backref='posts')
+    comments = db.relationship('Comment', backref='post', cascade='all, delete-orphan', foreign_keys='Comment.post_id')
+    likes = db.relationship('Like', backref='post', cascade='all, delete-orphan', foreign_keys='Like.post_id')
+    bookmarks = db.relationship('Bookmark', backref='post', cascade='all, delete-orphan', foreign_keys='Bookmark.post_id')
 
