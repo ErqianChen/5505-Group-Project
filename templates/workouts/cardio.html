@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Log Cardio{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="mb-3">
+    <a href="/workouts/log" class="text-decoration-none">&larr; Back</a>
+  </div>
+  <h2 class="text-center">Log Cardio Workout</h2>
+  <form id="cardio-form" action="/log_cardio" method="POST" class="bg-white rounded shadow-sm p-4">
+    <div class="mb-3">
+      <label for="activity" class="form-label">Activity Type</label>
+      <select name="activity" id="activity" class="form-select" required>
+        <option value="running">Running</option>
+        <option value="cycling">Cycling</option>
+        <option value="jump rope">Jump Rope</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="duration" class="form-label">Duration (minutes)</label>
+      <input type="number" name="duration" id="duration" class="form-control" min="1" required />
+    </div>
+    <input type="hidden" name="weight" id="weight" value="55" />
+    <input type="hidden" name="calories" id="calories" value="" />
+    <button type="submit" class="btn btn-primary w-100">Submit</button>
+  </form>
+  <div id="result" class="text-center mt-3 fs-5"></div>
+</div>
+
+<script>
+  const MET_VALUES = {
+    running: 9.8,
+    cycling: 7.5,
+    "jump rope": 12.3
+  };
+
+  document.getElementById("cardio-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const activity = document.getElementById("activity").value;
+    const duration = parseFloat(document.getElementById("duration").value);
+    const weight = parseFloat(document.getElementById("weight").value);
+
+    const met = MET_VALUES[activity];
+    const calories = (met * 3.5 * weight / 200) * duration;
+    const resultText = `Estimated calories burned: ${calories.toFixed(2)} kcal`;
+
+    document.getElementById("result").innerText = resultText;
+    document.getElementById("calories").value = calories.toFixed(2);
+
+    e.target.submit();
+  });
+</script>
+{% endblock %}

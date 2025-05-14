@@ -7,7 +7,7 @@ import os
 # Import models and db from models.py
 from models import db, User, WorkoutPlan, WorkoutRecord, SportsCategory
 
-app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
+app = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
 app.config['SECRET_KEY'] = 'your_secret_key_here'
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -15,12 +15,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+
 # --- Authentication and Template Routes ---
 @app.route('/')
 def index():
     if not session.get('user_id'):
         return render_template('login.html')
     return render_template('main.html')
+
+
+# log cardio route
+@app.route('/workouts/log/cardio', methods=['GET'])
+def cardio_page():
+    return render_template('workouts/cardio.html')
 
 # --- User Account APIs ---
 @app.route('/api/signup', methods=['POST'])

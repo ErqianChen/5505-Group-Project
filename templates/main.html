@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Workouts | My Fitness App{% endblock %}
+
+{% block content %}
+  <div class="text-center mt-4">
+    <h1>Workouts</h1>
+    <p class="mt-2">Choose a workout feature below:</p>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 mb-4">
+        <a href="/workouts/tutorial">
+          <img src="{{ url_for('static', filename='img/workout1.png') }}" class="img-fluid rounded shadow" alt="Tutorials">
+        </a>
+        <p class="text-center mt-2">Watch Workout Tutorials</p>
+      </div>
+      <div class="col-md-6 mb-4">
+        <a href="/workouts/log">
+          <img src="{{ url_for('static', filename='img/workout2.png') }}" class="img-fluid rounded shadow" alt="Log Workouts">
+        </a>
+        <p class="text-center mt-2">Log Your Workouts</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
