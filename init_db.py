@@ -12,7 +12,8 @@ from models import (
     BrowsingHistory,
     Comment,
     Like,
-    Bookmark
+    Bookmark,
+    Post
 )
 from werkzeug.security import generate_password_hash
 from datetime import datetime, date, timedelta
@@ -129,43 +130,45 @@ def init_db():
             )
             db.session.add(bh)
 
-    # Seed comments
-    comment_texts = [
-        "Great workout!",
-        "Challenging but fun.",
-        "I love this activity.",
-        "Need more reps next time.",
-        "Felt amazing today."
+    # --- Seed Social Posts, Likes, Comments, Bookmarks ---
+    post_contents = [
+        "Just finished a killer workout session! 🏋️‍♀️💦",
+        "Tried morning yoga 🧘‍♀️— feel calm and centered.",
+        "Pushed my limits on bench press today! 💪🔥",
+        "Morning run with friends, best way to start the day! 🏃‍♂️☀️",
+        "Discovered a new HIIT routine, totally recommend!",
+        "Yoga stretches really helped my back.",
+        "Cycling by the river, beautiful views! 🚴‍♀️🌊",
+        "First time swimming 1km non-stop! 🏊‍♂️",
+        "Weightlifting PR smashed! 🏋️‍♂️",
+        "Rest day, but still did some stretching."
     ]
-    for u in users:
-        for idx, text in enumerate(comment_texts[:3]):
-            com = Comment(
-                user_id=u.id,
-                post_id=idx + 1,
-                content=text,
-                created_at=datetime.utcnow() - timedelta(hours=idx)
-            )
-            db.session.add(com)
+    posts = []
+    for i, content in enumerate(post_contents):
+        author = random.choice(users)
+        post = Post(user_id=author.id, content=content, created_at=datetime.utcnow() - timedelta(days=random.randint(0, 10)))
+        db.session.add(post)
+        posts.append(post)
+    db.session.commit()
 
-    # Seed likes
-    for u in users:
-        for pid in range(1, 4):
-            lk = Like(
-                user_id=u.id,
-                post_id=pid,
-                created_at=datetime.utcnow()
-            )
-            db.session.add(lk)
-
-    # Seed bookmarks
-    for u in users:
-        for pid in range(1, 3):
-            bm = Bookmark(
-                user_id=u.id,
-                post_id=pid,
-                created_at=datetime.utcnow()
-            )
-            db.session.add(bm)
+    # 随机生成likes, comments, bookmarks
+    for post in posts:
+        # 随机like
+        like_users = random.sample(users, random.randint(1, min(5, len(users))))
+        for u in like_users:
+            db.session.add(Like(user_id=u.id, post_id=post.id, created_at=datetime.utcnow()))
+        # 随机bookmark
+        bookmark_users = random.sample(users, random.randint(1, min(5, len(users))))
+        for u in bookmark_users:
+            db.session.add(Bookmark(user_id=u.id, post_id=post.id, created_at=datetime.utcnow()))
+        # 随机comment
+        for _ in range(random.randint(1, 5)):
+            commenter = random.choice(users)
+            text = random.choice([
+                "Great job!", "Amazing progress!", "Keep it up!", "Love this!", "So inspiring!", "Nice work!", "🔥🔥🔥"
+            ])
+            db.session.add(Comment(user_id=commenter.id, post_id=post.id, content=text, created_at=datetime.utcnow() - timedelta(hours=random.randint(0, 48))))
+    db.session.commit()
 
     db.session.commit()
     print("Database initialized with mock data.")
