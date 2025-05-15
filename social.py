@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session
-from models import db, User, Post, Comment, Like
+from models import db, User, Post, Comment, Like, Bookmark
 from datetime import datetime
 
 social_bp = Blueprint('social', __name__)
@@ -9,18 +9,25 @@ def get_current_user_id():
 
 @social_bp.route('/api/posts', methods=['GET'])
 def get_posts():
+    user_id = get_current_user_id()
     posts = Post.query.order_by(Post.created_at.desc()).all()
     result = []
     for post in posts:
         user = User.query.get(post.user_id)
         comments = Comment.query.filter_by(post_id=post.id).all()
         likes = Like.query.filter_by(post_id=post.id).count()
+        bookmarks = Bookmark.query.filter_by(post_id=post.id).count()
+        is_bookmarked = False
+        if user_id:
+            is_bookmarked = Bookmark.query.filter_by(user_id=user_id, post_id=post.id).first() is not None
         result.append({
             'id': post.id,
             'username': user.username,
             'timestamp': post.created_at.strftime('%Y-%m-%d %H:%M'),
             'content': post.content,
             'likes': likes,
+            'bookmarks': bookmarks,
+            'is_bookmarked': is_bookmarked,
             'comments': [
                 {'username': User.query.get(c.user_id).username, 'text': c.content}
                 for c in comments
@@ -71,3 +78,19 @@ def like_post(post_id):
         db.session.add(new_like)
         db.session.commit()
         return jsonify({'liked': True})
+
+@social_bp.route('/api/posts/<int:post_id>/bookmark', methods=['POST'])
+def bookmark_post(post_id):
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Not logged in'}), 401
+    bookmark = Bookmark.query.filter_by(user_id=user_id, post_id=post_id).first()
+    if bookmark:
+        db.session.delete(bookmark)
+        db.session.commit()
+        return jsonify({'bookmarked': False})
+    else:
+        new_bm = Bookmark(user_id=user_id, post_id=post_id)
+        db.session.add(new_bm)
+        db.session.commit()
+        return jsonify({'bookmarked': True})
