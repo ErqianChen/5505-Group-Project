@@ -12,17 +12,23 @@
       margin: 0;
       padding: 20px;
     }
+    /* Fixed back button style, same as tutorial_cardio.html */
     .back-button {
-      margin-bottom: 20px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 201;
     }
-
     .back-button a {
       text-decoration: none;
       font-size: 16px;
       color: #007aff;
       font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      box-shadow: none;
     }
-
     .container {
       max-width: 800px;
       margin: auto;
@@ -63,19 +69,18 @@
   </style>
 </head>
 <body>
+  <div class="back-button">
+    <a href="../main.html">&larr; Back</a>
+  </div>
   <div class="container">
-    <div class="back-button">
-      <a href="../main.html">← Back</a>
-    </div>
-    
     <h2 class="section-title">What do we want to watch today?</h2>
     <div class="card-section">
-      <a href="#" class="card">Cardio</a>
-      <a href="#" class="card">Strength</a>
+      <a href="tutorial_cardio.html" class="card">Cardio</a>
+      <a href="tutorial_strength.html" class="card">Strength</a>
     </div>
   </div>
   <div class="nav-bar-spacer"></div>
-  <!-- 底部导航栏，样式交给 main.css -->
+  <!-- Bottom nav bar, styled by main.css -->
   <div class="nav-bar">
     <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
     <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
