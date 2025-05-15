@@ -218,3 +218,36 @@ def log_cardio():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+  
+    
+@record_bp.route('/api/log_strength', methods=['POST'])
+def log_strength():
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    activity = request.form.get('activity')
+    duration = request.form.get('duration')
+    calories = request.form.get('calories')
+    difficulty = request.form.get('difficulty', 1)
+
+    # Find the sports category by name
+    category = SportsCategory.query.filter_by(name=activity).first()
+    if not category:
+        return jsonify({'error': 'Invalid activity type'}), 400
+
+    try:
+        record = WorkoutRecord(
+            user_id=user_id,
+            category_id=category.id,
+            date=date.today(),
+            duration_min=int(float(duration)),
+            difficulty=int(difficulty),
+            calories_burn=float(calories)
+        )
+        db.session.add(record)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
