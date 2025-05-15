@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,9 +24,16 @@
       <button type="submit" class="auth-button">Sign Up</button>
     </form>
     <a href="login.html" class="auth-alt-link">Already have an account? Log In</a>
+    <a href="forgot_password.html" class="auth-alt-link" style="display:block;text-align:center;margin-top:12px;">Forgot password?</a>
   </div>
 
   <script>
+    let csrfToken = '';
+    // Fetch CSRF token on page load
+    fetch('/api/csrf-token').then(res => res.json()).then(data => {
+      csrfToken = data.csrf_token;
+    });
+
     async function handleSignup(event) {
       event.preventDefault();
       const username = document.getElementById('signup-username').value;
@@ -36,7 +42,10 @@
 
       const res = await fetch('/api/signup', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
         body: JSON.stringify({ username, email, password })
       });
 

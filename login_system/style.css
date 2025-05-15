@@ -123,15 +123,16 @@
   ----------------------------------- */
   .auth-alt-link {
     display: block;
-    margin-top: 20px;
-    color: #007aff;
-    font-size: 0.9rem;
+    margin-top: 14px;
+    color: #b0c4de;
+    text-align: center;
+    font-size: 0.98rem;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: color 0.2s;
   }
   
   .auth-alt-link:hover {
-    opacity: 0.7;
+    color: #7ec9f5;
   }
   
   /* Small “Forgot Password?” link styling */

@@ -215,7 +215,7 @@
         <h2>Login</h2>
         <form class="auth-form" onsubmit="handleLogin(event)">
           <div class="input-group">
-            <input type="text" id="login-username" name="username" class="auth-input" placeholder="Email address" required />
+            <input type="text" id="login-username" name="username" class="auth-input" placeholder="Username" required />
           </div>
           <div class="input-group">
             <input type="password" id="login-password" name="password" class="auth-input" placeholder="Password" required />
@@ -237,6 +237,12 @@
 
 
   <script>
+    let csrfToken = '';
+    // Fetch CSRF token on page load
+    fetch('/api/csrf-token').then(res => res.json()).then(data => {
+      csrfToken = data.csrf_token;
+    });
+
     async function handleLogin(event) {
       event.preventDefault();
       const username = document.getElementById('login-username').value;
@@ -244,13 +250,16 @@
 
       const res = await fetch('/api/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
         body: JSON.stringify({ username, password })
       });
 
       const data = await res.json();
       if (data.success) {
-        window.location.href = 'main.html';
+        window.location.href = '/main.html';
       } else {
         alert('Login failed: ' + (data.error || 'Unknown error'));
       }
