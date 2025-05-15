@@ -94,3 +94,8 @@ def bookmark_post(post_id):
         db.session.add(new_bm)
         db.session.commit()
         return jsonify({'bookmarked': True})
+
+@social_bp.route('/api/users')
+def get_users():
+    users = User.query.all()
+    return jsonify([{'id': u.id, 'username': u.username} for u in users])

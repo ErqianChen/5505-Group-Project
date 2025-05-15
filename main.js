@@ -1,4 +1,4 @@
-// main.js: handle tab switching, chart initialization, and data loading with user selection
+// main.js: handles tab switching, chart initialization, and data loading with user selection
 let lineChart, pieChart, radarChart;
 
 $(document).ready(function() {

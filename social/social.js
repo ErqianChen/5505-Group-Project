@@ -81,7 +81,7 @@ function likePost(postId) {
     });
 }
 
-// 绑定发帖按钮事件
+// Bind post button event
 window.addEventListener('DOMContentLoaded', function() {
     const btn = document.querySelector('.post-button');
     if (btn) {
@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', function() {
     loadPosts();
 });
 
-// 收藏/取消收藏
+// Bookmark or unbookmark a post
 function bookmarkPost(postId) {
     fetch(`/api/posts/${postId}/bookmark`, {
         method: 'POST',
