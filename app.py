@@ -5,7 +5,7 @@ import os
 
 # Import blueprints
 from auth import auth_bp
-from record import record_bp
+from record import record_bp, log_cardio  # Import log_cardio for CSRF exemption
 from social import social_bp
 
 # Initialize Flask app
@@ -25,6 +25,9 @@ csrf = CSRFProtect(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(record_bp)
 app.register_blueprint(social_bp)
+
+# Exempt the log_cardio route from CSRF protection
+csrf.exempt(log_cardio)
 
 @csrf.exempt  # Allow login page to render without CSRF token
 @app.route('/')

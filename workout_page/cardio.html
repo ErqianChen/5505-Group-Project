@@ -91,9 +91,9 @@
     <form id="cardio-form" action="/log_cardio" method="POST">
       <label for="activity">Activity Type</label>
       <select id="activity" name="activity" required>
-        <option value="running">Running</option>
-        <option value="cycling">Cycling</option>
-        <option value="jump rope">Swimming</option>
+        <option value="Running">Running</option>
+        <option value="Cycling">Cycling</option>
+        <option value="Swimming">Swimming</option>
       </select>
     
       <label for="duration">Duration (minutes)</label>
@@ -108,7 +108,7 @@
     <div id="result"></div>
   </div>
   <div class="nav-bar-spacer"></div>
-  <!-- 底部导航栏，样式交给 main.css -->
+  <!-- navbar main.css -->
   <div class="nav-bar">
     <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
     <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
@@ -117,26 +117,44 @@
   </div>
   <script>
     const MET_VALUES = {
-      running: 9.8,
-      cycling: 7.5,
-      "jump rope": 12.3
+      Running: 9.8,
+      Cycling: 7.5,
+      Swimming: 8.0 // Set a reasonable MET value for swimming
     };
-  
-    document.getElementById("cardio-form").addEventListener("submit", function (e) {
+
+    document.getElementById("cardio-form").addEventListener("submit", async function (e) {
       e.preventDefault();
       const activity = document.getElementById("activity").value;
       const duration = parseFloat(document.getElementById("duration").value);
-      const weight = parseFloat(document.getElementById("weight").value);
-  
+      const weight = 55; // Hardcoded default weight
+
+      // Calories = MET × weight (kg) × time (hours)
       const met = MET_VALUES[activity];
-      const calories = (met * 3.5 * weight / 200) * duration;
-      const resultText = `Estimated calories burned: ${calories.toFixed(2)} kcal`;
-  
-      document.getElementById("result").innerText = resultText;
-      document.getElementById("calories").value = calories.toFixed(2);
-      
-      // 这行可以恢复表单提交（如果你想用 form 的 POST 到 Flask）
-      e.target.submit();
+      const durationHours = duration / 60;
+      const calories = met * weight * durationHours;
+      document.getElementById("calories").value = isNaN(calories) ? "" : calories.toFixed(2);
+
+      // Build FormData and send via fetch
+      const form = document.getElementById("cardio-form");
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch("/api/log_cardio", {
+          method: "POST",
+          body: formData
+        });
+        if (response.ok) {
+          // Clear form
+          form.reset();
+          // Show success message
+          document.getElementById("result").innerText = "Workout logged successfully!";
+        } else {
+          const data = await response.json();
+          document.getElementById("result").innerText = data.error || "Failed to log workout.";
+        }
+      } catch (err) {
+        document.getElementById("result").innerText = "Network error.";
+      }
     });
   </script>
 </body>
