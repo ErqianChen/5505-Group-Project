@@ -1,7 +1,7 @@
-Flask==2.0.1
+Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
 SQLAlchemy==1.4.36
-Werkzeug==2.0.1
+Werkzeug==3.0.6
 pytest==7.0.1
 Flask-WTF==1.0.0
 flask-login==0.5.0
