@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block tab_account %}
+  <form class="edit-form" method="post" enctype="multipart/form-data">
+    <label>New nickname</label>
+    <input type="text" name="nickname" value="{{ user.nickname }}">
+    <label>New address</label>
+    <input type="text" name="address"  value="{{ user.address }}">
+    <label>New avatar</label>
+    <img class="profile-avatar" src="/uploads/{{ user.avatar or 'default.jpg' }}">
+    <input type="file" name="avatar" accept=".jpg,.jpeg,.png">
+    <button type="submit" class="btn primary">Save</button>
+    <a class="btn secondary" href="{{ url_for('profile_bp.my_info') }}">Back</a>
+  </form>
+{% endblock %}
