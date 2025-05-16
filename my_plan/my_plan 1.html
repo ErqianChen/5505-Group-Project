@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Plan</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="my_plan 1.css" />
+</head>
+<body>
+    <div class="header dark-header">
+        <img src="your_profile_pic.jpg" alt="profile" class="profile-img"/>
+        <div class="user-info">
+            <h2>Username</h2>
+            <p class="coins">coins = 66</p>
+            <p>Total exercise time: 20h 48min</p>
+            <p>Burn calories today: 2000k</p>
+        </div>
+    </div>
+
+    <div class="date-selector">
+        <button id="prev-day">&lt;</button>
+        <span id="date-label">Today</span>
+        <button id="next-day">&gt;</button>
+    </div>
+
+    <button class="add-plan-btn">Add Plan +</button>
+
+    <div class="plan-list" id="plan-list"></div>
+
+    <div class="chart-section">
+        <canvas id="activityChart"></canvas>
+        <canvas id="aerobicPieChart"></canvas>
+    </div>
+
+    <div class="nav-bar-spacer"></div>
+    <div class="nav-bar">
+        <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+    </div>
+
+    <!-- Add/Edit Plan Modal -->
+    <div id="planModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Add / Edit Plan</h3>
+            <form id="planForm">
+                <label for="activityInput">Activity:</label>
+                <select id="activityInput" required>
+                    <option value="">-- Select Activity --</option>
+                    <option value="Running">Running</option>
+                    <option value="Cycling">Cycling</option>
+                    <option value="Swimming">Swimming</option>
+                    <option value="Weightlifting">Weightlifting</option>
+                    <option value="Yoga">Yoga</option>
+                    <option value="HIIT">HIIT</option>
+                </select><br>
+                <label>Start Time:</label>
+                <input type="datetime-local" id="startInput" required><br>
+                <label>End Time:</label>
+                <input type="datetime-local" id="endInput" required><br>
+                <button type="submit">Save</button>
+            </form>
+            <div id="plan-success-msg" style="display:none; color:green; text-align:center; margin-top:8px;"></div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            position: fixed; z-index: 99;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: white; padding: 20px;
+            margin: 10% auto; width: 80%;
+            border-radius: 10px;
+        }
+        .close {
+            float: right; font-size: 24px; cursor: pointer;
+        }
+    </style>
+
+    <script src="my_plan 1.js"></script>
+</body>
+</html>
