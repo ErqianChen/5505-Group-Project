@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Log Cardio</title>
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../main.css" />
   <style>
     body {
       font-family: sans-serif;
@@ -15,14 +16,22 @@
       max-width: 800px;
       margin: auto;
     }
+    /* Fixed back button style, same as tutorial_cardio.html */
     .back-button {
-      margin-bottom: 20px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 201;
     }
     .back-button a {
       text-decoration: none;
       font-size: 16px;
       color: #007aff;
       font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      box-shadow: none;
     }
     h2 {
       font-size: 24px;
@@ -68,6 +77,9 @@
       color: #333;
       text-align: center;
     }
+    .nav-bar-spacer {
+      height: 56px;
+    }
   </style>
 </head>
 <body>
@@ -76,25 +88,33 @@
       <a href="log.html">← Back</a>
     </div>
     <h2>Log Cardio Workout</h2>
-    <form action="/log_cardio" method="POST">
+    <form id="cardio-form" action="/log_cardio" method="POST">
       <label for="activity">Activity Type</label>
-      <select name="activity" required>
+      <select id="activity" name="activity" required>
         <option value="running">Running</option>
         <option value="cycling">Cycling</option>
-        <option value="jump rope">Jump Rope</option>
+        <option value="jump rope">Swimming</option>
       </select>
     
       <label for="duration">Duration (minutes)</label>
-      <input type="number" name="duration" min="1" required />
+      <input id="duration" type="number" name="duration" min="1" required />
     
-      <input type="hidden" name="weight" value="55" />
+      <input id="weight" type="hidden" name="weight" value="55" />
+      <input id="calories" type="hidden" name="calories" value="" />
     
       <button type="submit">Submit</button>
     </form>
     
     <div id="result"></div>
   </div>
-
+  <div class="nav-bar-spacer"></div>
+  <!-- 底部导航栏，样式交给 main.css -->
+  <div class="nav-bar">
+    <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+  </div>
   <script>
     const MET_VALUES = {
       running: 9.8,
@@ -113,12 +133,11 @@
       const resultText = `Estimated calories burned: ${calories.toFixed(2)} kcal`;
   
       document.getElementById("result").innerText = resultText;
-      document.getElementById("calories").value = calories.toFixed(2);  // ✅ 加上这行！
+      document.getElementById("calories").value = calories.toFixed(2);
       
       // 这行可以恢复表单提交（如果你想用 form 的 POST 到 Flask）
       e.target.submit();
     });
   </script>
-  
 </body>
 </html>

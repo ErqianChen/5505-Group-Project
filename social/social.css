@@ -34,14 +34,16 @@
 
 /* Post content style */
 .post-content {
-  font-size: 15px;
-  color: #121212;
+  font-size: 17px;
+  color: #222;
   margin-bottom: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  line-clamp: 3;
+  box-orient: vertical;
 }
 
 /* User info style */
@@ -108,9 +110,15 @@
 
 /* Comments area style */
 .post-comments {
-  margin-top: 12px;
-  border-top: 1px solid #f0f2f5;
-  padding-top: 12px;
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.post-comments p {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 2px 0;
 }
 
 .comment {
@@ -129,12 +137,13 @@
 }
 
 .comment-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  margin-top: 8px;
   font-size: 14px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .comment-input:focus {
@@ -235,4 +244,4 @@
 
 .hidden-file-input {
   display: none;
-} 
+}

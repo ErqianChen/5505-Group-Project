@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Workout Tutorials</title>
   <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../main.css" />
   <style>
     body {
       font-family: sans-serif;
@@ -11,17 +12,23 @@
       margin: 0;
       padding: 20px;
     }
+    /* Fixed back button style, same as tutorial_cardio.html */
     .back-button {
-      margin-bottom: 20px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 201;
     }
-
     .back-button a {
       text-decoration: none;
       font-size: 16px;
       color: #007aff;
       font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      box-shadow: none;
     }
-
     .container {
       max-width: 800px;
       margin: auto;
@@ -56,19 +63,30 @@
       transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
+    .nav-bar-spacer {
+      height: 56px;
+    }
   </style>
 </head>
 <body>
+  <div class="back-button">
+    <a href="../main.html">&larr; Back</a>
+  </div>
   <div class="container">
-    <div class="back-button">
-      <a href="workout_page.html">← Back</a>
-    </div>
-    
     <h2 class="section-title">What do we want to watch today?</h2>
     <div class="card-section">
-      <a href="#" class="card">Cardio</a>
-      <a href="#" class="card">Strength</a>
+      <a href="tutorial_cardio.html" class="card">Cardio</a>
+      <a href="tutorial_strength.html" class="card">Strength</a>
     </div>
   </div>
+  <div class="nav-bar-spacer"></div>
+  <!-- Bottom nav bar, styled by main.css -->
+  <div class="nav-bar">
+    <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+  </div>
+  <script src="../main.js"></script>
 </body>
 </html>

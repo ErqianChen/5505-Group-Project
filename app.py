@@ -12,6 +12,7 @@ from social import social_bp
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
+
 #Upload Configuration
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOAD_FOLDER'] = os.path.join(BASEDIR, 'uploads')
@@ -29,6 +30,7 @@ else:
         f.write(secret_key)
 
 app.config['SECRET_KEY'] = secret_key
+
 # SQLite database configuration
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -42,10 +44,11 @@ csrf = CSRFProtect(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(record_bp)
 app.register_blueprint(social_bp)
+
 # register the user_profile blueprint
 app.register_blueprint(profile_bp)
 # register the plan blueprint
-app.register_blueprint(plan_bp)
+# app.register_blueprint(plan_bp)
 
 @csrf.exempt  # Allow login page to render without CSRF token
 @app.route('/')

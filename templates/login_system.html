@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page_title or 'Auth | TrainTogether' }}</title>
+  <link rel="stylesheet" href="/login_system/style.css">
+</head>
+<body {% if show_illustration %}class="login-page"{% endif %}>
+  <div class="main-section">
+    <div class="left-panel">
+      <div class="main-title">{{ main_title|safe }}</div>
+      <div class="{{ card_class }}">
+        <h2>{{ card_title }}</h2>
+        <form class="auth-form" method="post" onsubmit="{{ form_onsubmit }}">
+          {% for field in fields %}
+          <div class="input-group">
+            <input type="{{ field.type }}" id="{{ field.id }}" name="{{ field.name }}" class="auth-input" placeholder="{{ field.placeholder }}" required />
+            <label for="{{ field.id }}">{{ field.label }}</label>
+          </div>
+          {% endfor %}
+          {% if alt_link %}
+            <a href="{{ alt_link.href }}" class="auth-alt-link">{{ alt_link.text }}</a>
+          {% endif %}
+          <button type="submit" class="auth-button">{{ button_text }}</button>
+        </form>
+        {% if extra_links %}
+          {% for link in extra_links %}
+            <a href="{{ link.href }}" class="auth-alt-link">{{ link.text }}</a>
+          {% endfor %}
+        {% endif %}
+        {% if signup_link %}
+        <div class="signup-link">
+          {{ signup_link.text }}
+          <a href="{{ signup_link.href }}">{{ signup_link.link_text }}</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="right-panel">
+      {% if show_illustration %}
+      <img src="/login_system/sport.png" alt="Fitness Illustration" class="illustration" />
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    let csrfToken = '';
+    fetch('/api/csrf-token').then(res => res.json()).then(data => {
+      csrfToken = data.csrf_token;
+    });
+    {{ custom_script|safe }}
+  </script>
+</body>
+</html>
