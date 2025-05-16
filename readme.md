@@ -87,6 +87,7 @@ It allows users to:
   GitHub: JiasenNiu-Max UWA_ID: 23941282
   - Social section implementation: posts, likes, comments, bookmarks
   - Test suite development (unit & Selenium tests)
+  - initial data migration and admin user seeding script
   - Code review and quality assurance
 
 - **Jiaxin Shi** 
