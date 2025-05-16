@@ -198,6 +198,16 @@ def log_cardio():
     if not activity or not duration or not calories:
         return jsonify({'error': 'Missing required fields'}), 400
 
+    # Validate duration
+    try:
+        duration_val = float(duration)
+        if duration_val <= 0:
+            return jsonify({'error': 'Duration must be positive'}), 400
+        if duration_val > 1440:  # 24 hours in minutes
+            return jsonify({'error': 'Duration cannot exceed 24 hours'}), 400
+    except ValueError:
+        return jsonify({'error': 'Invalid duration value'}), 400
+
     # Find the sports category by name
     category = SportsCategory.query.filter_by(name=activity).first()
     if not category:

@@ -3,7 +3,7 @@ from flask_wtf.csrf import CSRFProtect
 from models import db
 import os
 from user_profile import profile_bp
-from plan import plan_bp
+# from plan import plan_bp  # Temporarily commented out
 
 # Import blueprints
 from auth import auth_bp
