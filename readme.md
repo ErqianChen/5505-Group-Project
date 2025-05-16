@@ -88,14 +88,16 @@ It allows users to:
   - Social section implementation: posts, likes, comments, bookmarks
   - Test suite development (unit & Selenium tests)
   - initial data migration and admin user seeding script
-  - Code review and quality assurance
+  - Function debugging
+  - Code review and css style refine
 
 - **Jiaxin Shi** 
   GitHub: shijarrr UWA_ID: 23895698
-  - Workout section implementation
-  - Workout section backend-frontend integration
-  - Implemented workout record entry and fitness tutorial recommendation
-  - Code review and quality assurance
+  - Workout section subpages implementation
+  - Backend-frontend integration, database linkage with logic design
+  - Implemented workout data record entry and fitness tutorial recommendation
+  - Function debugging
+  - Code review and css style refine
 
 
 ---
