@@ -17,8 +17,14 @@ def signup():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    
+    # Validate password length
+    if len(password) < 6:
+        return jsonify({'success': False, 'error': 'Password must be at least 6 characters long'}), 400
+        
     if User.query.filter((User.username == username) | (User.email == email)).first():
         return jsonify({'success': False, 'error': 'Username or Email already exists'}), 400
+    
     hashed_pw = generate_password_hash(password)
     user = User(username=username, email=email, password_hash=hashed_pw)
     db.session.add(user)

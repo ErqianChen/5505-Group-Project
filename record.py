@@ -198,6 +198,16 @@ def log_cardio():
     if not activity or not duration or not calories:
         return jsonify({'error': 'Missing required fields'}), 400
 
+    # Validate duration
+    try:
+        duration_val = float(duration)
+        if duration_val <= 0:
+            return jsonify({'error': 'Duration must be positive'}), 400
+        if duration_val > 1000:  # Max 1000 minutes (about 16.5 hours)
+            return jsonify({'error': 'Duration is too long'}), 400
+    except ValueError:
+        return jsonify({'error': 'Invalid duration value'}), 400
+
     # Find the sports category by name
     category = SportsCategory.query.filter_by(name=activity).first()
     if not category:
@@ -208,8 +218,8 @@ def log_cardio():
             user_id=user_id,
             category_id=category.id,
             date=date.today(),
-            duration_min=int(float(duration)),
-            difficulty=1,  # Always set a default value for difficulty
+            duration_min=int(duration_val),
+            difficulty=1,  # Default value for difficulty
             calories_burn=float(calories)
         )
         db.session.add(record)
