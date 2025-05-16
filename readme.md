@@ -1,16 +1,25 @@
 # CITS5505-Group10-Project
-# Fitness Tracker Web App
+# TrainTogether
 
-A full-stack fitness tracking web application built with Flask, designed to help users stay motivated and empowers users to log, track, and visualize their workout activities.
+A full-stack fitness tracking web application built with Flask, designed to help users stay motivated and empowers users to log, track, and visualize their workout activities, while also socilize with each other.
 
 It allows users to:
-- **Watch categorized workout videos (cardio & strength)
-- **Log workout details such as sport category, duration, and intensity
-- **View personal progress through dynamic visualizations
-- **Engage with other users in the platform through social functions
+- Watch categorized **workout tutorial** videos (cardio & strength)
+- **Log workout data** details such as sport category, duration, and intensity
+- View personal progress through **dynamic visualizations**
+- Engage with other users in the platform through **social** functions
 
 ---
+Team Members   
 
+|  UWA Id   | Name  | GitHub |
+|  :----:  | :----:  | :----:  |
+| 23941282  | Jiasen Niu |[JiasenNiu-Max](https://github.com/JiasenNiu-Max) |
+| 23895698  | Jiaxin Shi |[shijarrr](https://github.com/shijarrr) |
+| 24009963  | Harry Zhu |[Harryzmh02](https://github.com/Harryzmh02)|
+| 23421379  | Erqian Chen |[ErqianChen](https://github.com/ErqianChen)|
+
+---
 ## Environment & Dependencies
 
 - **Python**: 3.10+
@@ -57,17 +66,52 @@ It allows users to:
    ```
    The app will be available at `http://127.0.0.1:5000/`.
 
-6. **(Optional) Run tests:**
-   ```
-   pytest
-   ```
+6. **Run the tests:**
+
+### Unit Tests
+
+All Python unit tests are named `test_*.py` and are located in the project root or in the `tests/` directory.  
+To run all unit tests, simply execute:
+
+```bash
+pytest
+```
+
+Or to run a specific test file:
+
+```bash
+pytest tests/test_example.py
+```
+
+### Selenium Tests
+
+Selenium tests are used for automated end-to-end browser testing. Before running, make sure:
+
+- Selenium and all dependencies are installed (`pip install -r requirements.txt`)
+- The appropriate WebDriver (e.g., ChromeDriver) is installed and available in your PATH
+
+To run all Selenium tests:
+
+```bash
+pytest tests/selenium/
+```
+
+Or to run a specific Selenium test file:
+
+```bash
+pytest tests/selenium/test_login.py
+```
+
+**Note:**
+- It is recommended to start the Flask application server (`python app.py`) before running Selenium tests.
+- Selenium tests will open a browser window automatically. Please do not interact with the browser during the test.
 
 ---
 
 ## Team Contributions
 
 - **Erqian Chen** 
-  GitHub: ErqianChen UWA_ID: 23421379
+
   - Main page base framework
   - Account section implementation: user info logging, browsing history etc
   - Account section backend-frontend integration
@@ -75,7 +119,7 @@ It allows users to:
   - Path routing and model integration
 
 - **Harry Zhu** 
-  GitHub: Harryzmh02 UWA_ID: 24009963
+
   - Database schema design and mock data insertion
   - Login system implementation (Jinja-based frontend)
   - Record section implementation: data analysis, visualization, leaderboard
@@ -84,7 +128,7 @@ It allows users to:
   - Blueprints & CSRF token setup
 
 - **Jiasen Niu** 
-  GitHub: JiasenNiu-Max UWA_ID: 23941282
+
   - Social section implementation: posts, likes, comments, bookmarks
   - Test suite development (unit & Selenium tests)
   - initial data migration and admin user seeding script
@@ -92,7 +136,7 @@ It allows users to:
   - Code review and css style refine
 
 - **Jiaxin Shi** 
-  GitHub: shijarrr UWA_ID: 23895698
+
   - Workout section subpages implementation
   - Backend-frontend integration, database linkage with logic design
   - Implemented workout data record entry and fitness tutorial recommendation
@@ -100,9 +144,7 @@ It allows users to:
   - Code review and css style refine
 
 
----
 
-## Features
 
 ---
 
