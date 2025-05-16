@@ -181,15 +181,16 @@
         <!-- Main page -->
         <div id="account-main-view">
             <div class="profile-header">
-                <img class="profile-avatar" id="account-avatar" src="/uploads/default.jpg">
+                <img class="profile-avatar" id="account-avatar" src="profile_pic.jpg">
                 <h2 id="account-username">Username</h2>
-                <p class="coins">coins = <span id="account-coins">66</span></p>
+                <!-- coins display removed -->
             </div>
             <ul class="profile-options">
                 <li class="option-item" onclick="showMyInfo()">
                     <span>My Information</span>
                     <span>&#8250;</span>
                 </li>
+<<<<<<< Updated upstream
                 <a href="my_plan/my_plan 1.html" style="text-decoration:none; color:inherit;">
                     <li class="option-item">
                         <span>My plan</span>
@@ -197,15 +198,25 @@
                     </li>
                 </a>
                 <li class="option-item"><span>My collection</span><span>&#8250;</span></li>
+=======
+                <li class="option-item" onclick="window.location.href='my_plan/my_plan.html'">
+                    <span>My plan</span>
+                    <span>&#8250;</span>
+                </li>
+                <li class="option-item" onclick="window.location.href='my_bookmarks/my_bookmarks.html'">
+                    <span>My Bookmarks</span>
+                    <span>&#8250;</span>
+                </li>
+>>>>>>> Stashed changes
                 <li class="option-item" id="logout-btn"><span>Logout</span><span>&#8250;</span></li>
             </ul>
         </div>
         <!--My information -->
         <div id="account-info-view" style="display:none;">
             <div class="profile-header">
-                <img class="profile-avatar" id="info-avatar" src="/uploads/default.jpg">
+                <img class="profile-avatar" id="info-avatar" src="profile_pic.jpg">
                 <h2 id="info-username">Username</h2>
-                <p class="coins">coins = <span id="info-coins">66</span></p>
+                <!-- coins display removed -->
             </div>
             <div class="info-view">
                 <p><strong>User name:</strong> <span id="info-username-detail">Username</span></p>
@@ -219,9 +230,9 @@
         <!-- edit page -->
         <div id="account-edit-view" style="display:none;">
             <div class="profile-header">
-                <img class="profile-avatar" id="edit-avatar-preview" src="/uploads/default.jpg">
+                <img class="profile-avatar" id="edit-avatar-preview" src="profile_pic.jpg">
                 <h2 id="edit-username">Username</h2>
-                <p class="coins">coins = <span id="edit-coins">66</span></p>
+                <!-- coins display removed -->
             </div>
             <form class="edit-form" id="edit-info-form">
                 <label for="edit-nickname"><b>New nickname</b></label>

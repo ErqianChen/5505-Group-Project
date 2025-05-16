@@ -60,6 +60,14 @@ $(document).ready(function() {
       }
     });
   });
+
+    // 自动同步Account区块用户名和头像
+    if ($('#tab-account').length > 0) {
+        $.get('/api/account/info', function(data) {
+            $('#account-avatar').attr('src', 'profile_pic.jpg');
+            $('#account-username').text(data.username);
+        });
+    }
 });
 
 
@@ -186,10 +194,14 @@ function fetchLeaderboard(range) {
 
 // Fetch and render post of main account page
 function showAccountMain() {
+  // 强制使用 profile_pic.jpg 作为头像
+  $('#account-avatar').attr('src', 'profile_pic.jpg');
   $.get('/api/account/info', function(data) {
-    $('#account-avatar').attr('src', data.avatar || '/uploads/default.jpg');
     $('#account-username').text(data.username);
-    $('#account-coins').text(data.coins || 0);
+    // 同步 info 视图的头像和用户名
+    $('#info-avatar').attr('src', 'profile_pic.jpg');
+    $('#info-username').text(data.username);
+    $('#info-username-detail').text(data.username);
     $('#account-main-view').show();
     $('#account-info-view').hide();
     $('#account-edit-view').hide();
@@ -200,15 +212,18 @@ function showAccountMain() {
 
 // Fetch and render post of 'my' page
 function showMyInfo() {
+    // 强制使用 profile_pic.jpg 作为头像
+    $('#info-avatar').attr('src', 'profile_pic.jpg');
     $.get('/api/account/info', function(data) {
-        $('#info-avatar').attr('src', data.avatar || '/uploads/default.jpg');
         $('#info-username').text(data.username);
         $('#info-username-detail').text(data.username);
         $('#info-nickname').text(data.nickname || 'Not set');
         $('#info-email').text(data.email || 'Not set');
         $('#info-address').text(data.address || 'Not set');
         $('#info-coins').text(data.coins || 0);
-
+        // 也同步主页面头像和用户名
+        $('#account-avatar').attr('src', 'profile_pic.jpg');
+        $('#account-username').text(data.username);
         $('#account-main-view').hide();
         $('#account-info-view').show();
         $('#account-edit-view').hide();

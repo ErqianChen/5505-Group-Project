@@ -46,6 +46,7 @@ It allows users to:
 
 4. **(Optional) Initialize the database:**
    ```
+   del app.db
    python init_db.py
    ```
    The database will be available as app.db.
