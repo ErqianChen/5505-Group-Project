@@ -111,4 +111,13 @@ def get_avatar(user_id):
     user = User.query.get_or_404(user_id)
     if not user.avatar:
         return redirect(url_for('static', filename='uploads/default.jpg')) # default avatar
-    return current_app.response_class(user.avatar, mimetype=user.avatar_mimetype)
+
+    resp = current_app.response_class(
+        user.avatar,
+        mimetype=user.avatar_mimetype or 'application/octet-stream'
+    )
+
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    resp.headers['Pragma']        = 'no-cache'
+    resp.headers['Expires']       = '0'
+    return resp
