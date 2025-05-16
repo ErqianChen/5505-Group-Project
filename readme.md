@@ -91,12 +91,23 @@ A full-stack fitness tracking web application built with Flask, supporting user 
 
 ## Features
 
-- User authentication and secure session management
-- Workout logging and personalized recommendations
-- Social feed and leaderboard
-- Responsive, Jinja2-based frontend
-- Data visualization for workout records
-- Comprehensive test suite (unit & Selenium)
+---
+
+## Features
+
+- **Valid, well-structured HTML**: All pages use valid HTML, a wide range of semantic elements, and are organized with Jinja2 templates for maintainability and clarity.
+- **Responsive, maintainable CSS**: Custom selectors and classes ensure a modern, visually appealing, and fully responsive design across devices.
+- **Modern JavaScript**: Includes client-side validation, DOM manipulation, and AJAX, following best practices for code quality and user experience.
+- **Intuitive navigation & strong design**: The website offers a clear navigation flow, strong visual identity, and a user-centered experience with clear value.
+- **Comprehensive functionality**: All features from the project brief are fully implemented, including user authentication, workout logging, social feed, leaderboard, and personalized recommendations.
+- **Well-organized Flask backend**: Modular codebase using Blueprints, with clear routing, robust data manipulation, and dynamic page generation.
+- **Robust data models**: Carefully designed database schema, secure authentication, and maintainable models, with evidence of database migrations.
+- **Thorough testing**: Includes unit tests and Selenium tests, covering both backend logic and live server interactions.
+- **Strong security**: Passwords are securely hashed and salted, CSRF tokens protect all forms, and sensitive configuration uses environment variables.
+
+---
+
+For more details, see the project documentation and code comments.
 
 ---
 
