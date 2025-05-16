@@ -7,12 +7,16 @@ from user_profile import profile_bp
 
 # Import blueprints
 from auth import auth_bp
-from record import record_bp, log_cardio, log_strength
+<<<<<<< Updated upstream
+from record import record_bp
 from social import social_bp
+=======
+from record import record_bp, log_cardio, log_strength
+from social.social import social_bp
+>>>>>>> Stashed changes
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
-
 #Upload Configuration
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOAD_FOLDER'] = os.path.join(BASEDIR, 'uploads')
@@ -30,7 +34,6 @@ else:
         f.write(secret_key)
 
 app.config['SECRET_KEY'] = secret_key
-
 # SQLite database configuration
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -44,15 +47,10 @@ csrf = CSRFProtect(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(record_bp)
 app.register_blueprint(social_bp)
-
 # register the user_profile blueprint
 app.register_blueprint(profile_bp)
 # register the plan blueprint
-# app.register_blueprint(plan_bp)
-
-# Exempt the log_cardio and log_strength routes from CSRF protection
-csrf.exempt(log_cardio)
-csrf.exempt(log_strength)
+app.register_blueprint(plan_bp)
 
 @csrf.exempt  # Allow login page to render without CSRF token
 @app.route('/')

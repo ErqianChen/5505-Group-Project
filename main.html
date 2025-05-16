@@ -55,15 +55,12 @@
         #tab-workout a:hover img {
             opacity: 1;
         }
-        #tab-workout h1 {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <!-- Workout Tab -->
     <div id="tab-workout" class="tab active">
-        <h1>Let's Get Moving!</h1>
+        <h1>WORKOUTS</h1>
         
         <div style="display: flex; justify-content: center; width: 100%;">
             <input type="text" placeholder="Search everything here"
@@ -163,7 +160,10 @@
                        border-radius: 8px; border: 1px solid #ccc;
                        font-size: 15px; resize: vertical;"></textarea>
             
-          
+            <div style="margin-top: 12px;">
+                <label for="new-post-image" style="font-size: 14px; color: #555;">Upload an image (optional):</label><br>
+                <input type="file" id="new-post-image" accept="image/*" style="margin-top: 5px;">
+            </div>
             
             <div style="margin-top: 15px;">
                 <button class="post-button">Post</button>

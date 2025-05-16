@@ -17,8 +17,14 @@ def signup():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
+    
+    # Validate password length
+    if len(password) < 6:
+        return jsonify({'success': False, 'error': 'Password must be at least 6 characters long'}), 400
+        
     if User.query.filter((User.username == username) | (User.email == email)).first():
         return jsonify({'success': False, 'error': 'Username or Email already exists'}), 400
+    
     hashed_pw = generate_password_hash(password)
     user = User(username=username, email=email, password_hash=hashed_pw)
     db.session.add(user)
@@ -84,4 +90,9 @@ def register():
 @auth_bp.route('/api/logout', methods=['POST'])
 def api_logout():
     session.clear()
-    return jsonify({'success': True})
+    response = jsonify({'success': True})
+    # Cache control headers to prevent caching
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
