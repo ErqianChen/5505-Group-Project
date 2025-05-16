@@ -6,7 +6,6 @@ $.getJSON('/api/csrf-token').done(function(res) {
   });
 });
 // main.js: handle tab switching, chart initialization, and data loading with user selection
-
 let lineChart, pieChart, radarChart;
 
 $(document).ready(function() {
@@ -77,6 +76,8 @@ function switchTab(tab) {
         loadRecord();
     } else if (tab === 'social') {
         loadPosts();
+    } else if (tab === 'account') {
+        showAccountMain();
     }
 }
 
@@ -187,7 +188,8 @@ function fetchLeaderboard(range) {
 // Fetch and render post of main account page
 function showAccountMain() {
   $.get('/api/account/info', function(data) {
-    $('#account-avatar').attr('src', data.avatar || '/uploads/default.jpg');
+    const avatarUrl = `${data.avatar}?t=${Date.now()}`;
+    $('#account-avatar').attr('src', avatarUrl);
     $('#account-username').text(data.username);
     $('#account-coins').text(data.coins || 0);
     $('#account-main-view').show();
