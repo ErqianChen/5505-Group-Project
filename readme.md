@@ -1,7 +1,13 @@
 # CITS5505-Group10-Project
 # Fitness Tracker Web App
 
-A full-stack fitness tracking web application built with Flask, supporting user authentication, workout logging, social features, and data visualization.
+A full-stack fitness tracking web application built with Flask, designed to help users stay motivated and empowers users to log, track, and visualize their workout activities.
+
+It allows users to:
+- **Watch categorized workout videos (cardio & strength)
+- **Log workout details such as sport category, duration, and intensity
+- **View personal progress through dynamic visualizations
+- **Engage with other users in the platform through social functions
 
 ---
 
@@ -60,27 +66,31 @@ A full-stack fitness tracking web application built with Flask, supporting user 
 
 ## Team Contributions
 
-- **Erqian Chen**
+- **Erqian Chen** 
+  GitHub: ErqianChen UWA_ID: 23421379
   - Main page base framework
   - Account section implementation: user info logging, browsing history etc
   - Account section backend-frontend integration
   - Assisted with login system backend
   - Path routing and model integration
 
-- **Harry Zhu**
+- **Harry Zhu** 
+  GitHub: Harryzmh02 UWA_ID: 24009963
   - Database schema design and mock data insertion
   - Login system implementation (Jinja-based frontend)
   - Record section implementation: data analysis, visualization, leaderboard
   - Record and Social section backend-frontend integration
   - Assisted with Path routing and model integration
-  - Blueprints setup
+  - Blueprints & CSRF token setup
 
-- **Jiasen Niu**
+- **Jiasen Niu** 
+  GitHub: JiasenNiu-Max UWA_ID: 23941282
   - Social section implementation: posts, likes, comments, bookmarks
   - Test suite development (unit & Selenium tests)
   - Code review and quality assurance
 
-- **Jiaxin Shi**
+- **Jiaxin Shi** 
+  GitHub: shijarrr UWA_ID: 23895698
   - Workout section implementation
   - Workout section backend-frontend integration
   - Implemented workout record entry and fitness tutorial recommendation
@@ -105,9 +115,6 @@ A full-stack fitness tracking web application built with Flask, supporting user 
 - **Thorough testing**: Includes unit tests and Selenium tests, covering both backend logic and live server interactions.
 - **Strong security**: Passwords are securely hashed and salted, CSRF tokens protect all forms, and sensitive configuration uses environment variables.
 
----
-
-For more details, see the project documentation and code comments.
 
 ---
 
