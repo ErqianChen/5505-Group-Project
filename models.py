@@ -21,11 +21,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    nickname = db.Column(db.String(80), default='Not set')
-    address = db.Column(db.String(200), default='Not set')
-    avatar = db.Column(db.LargeBinary)
-    avatar_mimetype  = db.Column(db.String(50))
-    coins = db.Column(db.Integer, default=0)
 
     records = db.relationship('WorkoutRecord', back_populates='user', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')

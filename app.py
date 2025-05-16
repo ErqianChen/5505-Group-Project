@@ -2,8 +2,6 @@ from flask import Flask, render_template, session, redirect
 from flask_wtf.csrf import CSRFProtect
 from models import db
 import os
-from user_profile import profile_bp
-from plan import plan_bp
 
 # Import blueprints
 from auth import auth_bp
@@ -12,25 +10,8 @@ from social import social_bp
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
-
-#Upload Configuration
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-app.config['UPLOAD_FOLDER'] = os.path.join(BASEDIR, 'uploads')
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024    # 5 MB limited
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 # Secret key for session and CSRF. Use environment or generate random
-key_file = os.path.join(app.instance_path, 'secret_key.txt')
-os.makedirs(app.instance_path, exist_ok=True)
-if os.path.exists(key_file):
-    with open(key_file, 'r') as f:
-        secret_key = f.read().strip()
-else:
-    secret_key = os.urandom(24).hex()
-    with open(key_file, 'w') as f:
-        f.write(secret_key)
-
-app.config['SECRET_KEY'] = secret_key
-
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(24).hex())
 # SQLite database configuration
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -44,11 +25,6 @@ csrf = CSRFProtect(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(record_bp)
 app.register_blueprint(social_bp)
-
-# register the user_profile blueprint
-app.register_blueprint(profile_bp)
-# register the plan blueprint
-# app.register_blueprint(plan_bp)
 
 # Exempt the log_cardio and log_strength routes from CSRF protection
 csrf.exempt(log_cardio)
@@ -72,20 +48,3 @@ if __name__ == '__main__':
         db.create_all()
     # Run Flask app in debug mode on default port
     app.run(debug=True)
-
-@app.route('/')
-@app.route('/workout')
-def workout():
-    return render_template('workout.html')
-
-@app.route('/record')
-def record():
-    return render_template('record.html')
-
-@app.route('/social')
-def social():
-    return render_template('social.html')
-
-@app.route('/account')
-def account():
-    return render_template('account.html')

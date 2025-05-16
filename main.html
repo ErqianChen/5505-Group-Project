@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Main page</title>
     <!-- Temporarily using flat file layout -->
     <link rel="stylesheet" href="main.css">
@@ -134,68 +133,22 @@
         </div>
     </div>
 
-     <!-- Account Tab  -->
+    <!-- Account Tab -->
     <div id="tab-account" class="tab">
-        <!-- Main page -->
-        <div id="account-main-view">
-            <div class="profile-header">
-                <img class="profile-avatar" id="account-avatar" src="/uploads/default.jpg">
-                <h2 id="account-username">Username</h2>
-                <p class="coins">coins = <span id="account-coins">66</span></p>
-            </div>
-            <ul class="profile-options">
-                <li class="option-item" onclick="showMyInfo()">
-                    <span>My Information</span>
-                    <span>&#8250;</span>
-                </li>
-                <li class="option-item"><span>My plan</span><span>&#8250;</span></li>
-                <li class="option-item"><span>My collection</span><span>&#8250;</span></li>
-                <li class="option-item" id="logout-btn"><span>Logout</span><span>&#8250;</span></li>
-            </ul>
+        <div style="text-align: center; padding: 20px; background: #000; color: #fff;">
+            <img src="/img/user.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
+            <h3>Username</h3>
+            <p>coins = 66</p>
         </div>
-        <!--My information -->
-        <div id="account-info-view" style="display:none;">
-            <div class="profile-header">
-                <img class="profile-avatar" id="info-avatar" src="/uploads/default.jpg">
-                <h2 id="info-username">Username</h2>
-                <p class="coins">coins = <span id="info-coins">66</span></p>
-            </div>
-            <div class="info-view">
-                <p><strong>User name:</strong> <span id="info-username-detail">Username</span></p>
-                <p><strong>nickname:</strong> <span id="info-nickname">nickname</span></p>
-                <p><strong>email:</strong> <span id="info-email">email@example.com</span></p>
-                <p><strong>address:</strong> <span id="info-address">address</span></p>
-                <button class="btn primary" onclick="showEditInfo()">update info</button>
-                <button class="btn secondary" onclick="showAccountMain()">back</button>
-            </div>
-        </div>
-        <!-- edit page -->
-        <div id="account-edit-view" style="display:none;">
-            <div class="profile-header">
-                <img class="profile-avatar" id="edit-avatar-preview" src="/uploads/default.jpg">
-                <h2 id="edit-username">Username</h2>
-                <p class="coins">coins = <span id="edit-coins">66</span></p>
-            </div>
-            <form class="edit-form" id="edit-info-form">
-                <label for="edit-nickname"><b>New nickname</b></label>
-                <input type="text" name="nickname" id="edit-nickname" placeholder="New nickname">
-                <label for="edit-address"><b>New address</b></label>
-                <input type="text" name="address" id="edit-address" placeholder="New address">
-                <label class="btn primary" style="display:inline-block; width:140px; text-align:center; cursor:pointer;">
-                    New avatar
-                    <input type="file"
-                           id="edit-avatar"
-                           name="avatar"
-                           accept=".jpg,.jpeg,.png"
-                           hidden>
-                </label>
-                <button type="submit" class="btn primary" style="margin-top:20px;">Save</button>
-                <button type="button" class="btn secondary" onclick="showMyInfo()" style="margin-top:10px;">back</button>
-            </form>
-        </div>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Information</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Plan</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">My Collection</li>
+            <li style="padding: 10px; border-bottom: 1px solid #ccc;">Browsing History</li>
+        </ul>
     </div>
 
-     <!-- Bottom Navigation -->
+    <!-- Bottom Navigation (always visible) -->
     <div class="nav-bar">
         <div class="nav-item" onclick="switchTab('workout')">Workout</div>
         <div class="nav-item" onclick="switchTab('record')">Record</div>
@@ -203,7 +156,7 @@
         <div class="nav-item" onclick="switchTab('account')">Account</div>
     </div>
 
-     <!-- Main JS script -->
+    <!-- Main JS script -->
     <script src="social/social.js"></script>
     <!-- Add social JS -->
     <script src="main.js"></script>
