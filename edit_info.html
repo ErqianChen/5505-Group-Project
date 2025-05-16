@@ -8,7 +8,7 @@
     <label>New avatar</label>
     <img class="profile-avatar" src="/uploads/{{ user.avatar or 'default.jpg' }}">
     <input type="file" name="avatar" accept=".jpg,.jpeg,.png">
-    <button type="submit" class="btn primary">Save</button>
-    <a class="btn secondary" href="{{ url_for('profile_bp.my_info') }}">Back</a>
+    <button type="submit" class="btn primary" style="background: #007aff; color: #fff;">Save</button>
+    <a class="btn secondary" href="{{ url_for('profile_bp.my_info') }}" style="background: #fff; color: #007aff; border: 2px solid #007aff; margin-top: 10px;">Back</a>
   </form>
 {% endblock %}

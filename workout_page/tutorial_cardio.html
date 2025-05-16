@@ -10,7 +10,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f7f7f7;
+            /* Light blue glassy background */
+            background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+            min-height: 100vh;
             margin: 0;
             padding: 20px 0 0 0;
             padding-bottom: 90px; /* More space for nav-bar */
@@ -53,16 +55,25 @@
             gap: 0;
         }
         .video-card {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.35);
             border-radius: 16px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            width: 250px; /* Reduced size */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 250px;
             min-width: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 14px 6px 12px 6px; /* Reduced padding */
+            padding: 14px 6px 12px 6px;
             box-sizing: border-box;
+            transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+        }
+        .video-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+            background: rgba(255, 255, 255, 0.50);
         }
         .video-card h2 {
             margin-bottom: 12px;

@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
     color: #333;
     transition: background 0.5s;
   }
@@ -100,16 +100,21 @@ body {
     margin-bottom: 40px;
   }
   .card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
   }
   .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+    background: rgba(255, 255, 255, 0.50);
+    transform: translateY(-5px) scale(1.03);
   }
   .card h4 {
     margin: 0 0 10px;
@@ -130,6 +135,18 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     margin-bottom: 50px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+  }
+  .charts-container:hover {
+    box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+    background: rgba(255, 255, 255, 0.50);
+    transform: translateY(-5px) scale(1.03);
   }
   
   .chart-item {
@@ -210,10 +227,21 @@ body {
 
   /* For account */
 .profile-header {
-  background-color: #000;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
   color: white;
   text-align: center;
   padding: 30px 20px 20px;
+}
+.profile-header:hover {
+  box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+  background: rgba(255, 255, 255, 0.50);
+  transform: translateY(-5px) scale(1.03);
 }
 .profile-avatar {
   width: 100px;
@@ -252,9 +280,20 @@ body {
   color: #888;
 }
 .info-view {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
   padding: 30px 20px;
   font-size: 18px;
+}
+.info-view:hover {
+  box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+  background: rgba(255, 255, 255, 0.50);
+  transform: translateY(-5px) scale(1.03);
 }
 .info-view p {
   margin: 18px 0;
@@ -281,11 +320,22 @@ body {
   margin-top: 10px;
 }
 .edit-form {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
   padding: 30px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.edit-form:hover {
+  box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+  background: rgba(255, 255, 255, 0.50);
+  transform: translateY(-5px) scale(1.03);
 }
 .edit-form label {
   font-size: 20px;
@@ -321,4 +371,14 @@ body {
     width: 100%;
   }
 }
-  
+
+/* Workout tab images transparency and hover effect */
+#tab-workout img, .card-section img, .video-card img {
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+#tab-workout a:hover img,
+.card-section a:hover img,
+.video-card:hover img {
+  opacity: 1;
+}
