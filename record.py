@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from sqlalchemy import func
 from models import db, User, WorkoutRecord, SportsCategory
 
+
 record_bp = Blueprint('record', __name__)
 
 def get_current_user_id():
@@ -164,8 +165,8 @@ def record_leaderboard():
 
     stats = []
     for u in User.query.all():
-        total_cal = sum(r.calories_burn for r in u.records if r.date >= start)
-        total_hr = sum(r.duration_min for r in u.records if r.date >= start) / 60
+        total_cal = sum((r.calories_burn or 0) for r in u.records if r.date >= start)
+        total_hr = sum((r.duration_min or 0) for r in u.records if r.date >= start) / 60
         stats.append((u.username, total_cal, total_hr))
 
     stats.sort(key=lambda x: x[1], reverse=True)
@@ -179,3 +180,74 @@ def record_leaderboard():
         for idx, (uname, cal, hr) in enumerate(stats[:10])
     ]
     return jsonify(leaderboard)
+
+@record_bp.route('/api/log_cardio', methods=['POST'])
+def log_cardio():
+    user_id = get_current_user_id()
+    print("user_id:", user_id)
+    if not user_id:
+        print("No user_id in session")
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    activity = request.form.get('activity')
+    duration = request.form.get('duration')
+    calories = request.form.get('calories')
+    print("Received:", activity, duration, calories)
+
+    # Validate required fields
+    if not activity or not duration or not calories:
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    # Find the sports category by name
+    category = SportsCategory.query.filter_by(name=activity).first()
+    if not category:
+        return jsonify({'error': 'Invalid activity type'}), 400
+
+    try:
+        record = WorkoutRecord(
+            user_id=user_id,
+            category_id=category.id,
+            date=date.today(),
+            duration_min=int(float(duration)),
+            difficulty=1,  # Always set a default value for difficulty
+            calories_burn=float(calories)
+        )
+        db.session.add(record)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+  
+    
+@record_bp.route('/api/log_strength', methods=['POST'])
+def log_strength():
+    user_id = get_current_user_id()
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    activity = request.form.get('activity')
+    duration = request.form.get('duration')
+    calories = request.form.get('calories')
+    difficulty = request.form.get('difficulty', 1)
+
+    # Find the sports category by name
+    category = SportsCategory.query.filter_by(name=activity).first()
+    if not category:
+        return jsonify({'error': 'Invalid activity type'}), 400
+
+    try:
+        record = WorkoutRecord(
+            user_id=user_id,
+            category_id=category.id,
+            date=date.today(),
+            duration_min=int(float(duration)),
+            difficulty=int(difficulty),
+            calories_burn=float(calories)
+        )
+        db.session.add(record)
+        db.session.commit()
+        return jsonify({'success': True}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500

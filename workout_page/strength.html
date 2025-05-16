@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Log Cardio</title>
+  <title>Log Strength Workout</title>
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="../main.css" />
   <style>
@@ -16,7 +16,6 @@
       max-width: 800px;
       margin: auto;
     }
-    /* Fixed back button style, same as tutorial_cardio.html */
     .back-button {
       position: fixed;
       top: 20px;
@@ -80,6 +79,7 @@
     .nav-bar-spacer {
       height: 56px;
     }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -87,28 +87,31 @@
     <div class="back-button">
       <a href="log.html">← Back</a>
     </div>
-    <h2>Log Cardio Workout</h2>
-    <form id="cardio-form" action="/log_cardio" method="POST">
-      <label for="activity">Activity Type</label>
-      <select id="activity" name="activity" required>
-        <option value="Running">Running</option>
-        <option value="Cycling">Cycling</option>
-        <option value="Swimming">Swimming</option>
+    <h2>Log Strength Workout</h2>
+    <form id="strength-form" action="/api/log_strength" method="POST">
+      <label for="exercise">Exercise</label>
+      <select id="exercise" name="activity" required>
+        <option value="Weightlifting">Weightlifting</option>
+        <option value="Yoga">Yoga</option>
+        <option value="HIIT">HIIT</option>
       </select>
-    
+
+      <div id="weight-group" class="hidden">
+        <label for="weight">Weight (kg)</label>
+        <input id="weight" type="number" min="0" step="1" />
+      </div>
+
       <label for="duration">Duration (minutes)</label>
       <input id="duration" type="number" name="duration" min="1" required />
-    
-      <input id="weight" type="hidden" name="weight" value="55" />
+
       <input id="calories" type="hidden" name="calories" value="" />
-    
+      <input id="difficulty" type="hidden" name="difficulty" value="1" />
+
       <button type="submit">Submit</button>
     </form>
-    
     <div id="result"></div>
   </div>
   <div class="nav-bar-spacer"></div>
-  <!-- navbar main.css -->
   <div class="nav-bar">
     <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
     <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
@@ -116,38 +119,62 @@
     <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
   </div>
   <script>
+    // MET values for each exercise
     const MET_VALUES = {
-      Running: 9.8,
-      Cycling: 7.5,
-      Swimming: 8.0 // Set a reasonable MET value for swimming
+      Weightlifting: 6.0,
+      Yoga: 3.0,
+      HIIT: 10.0
     };
 
-    document.getElementById("cardio-form").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const activity = document.getElementById("activity").value;
-      const duration = parseFloat(document.getElementById("duration").value);
-      const weight = 55; // Hardcoded default weight
+    // Show/hide weight input based on exercise selection
+    document.getElementById("exercise").addEventListener("change", function () {
+      const exercise = this.value;
+      document.getElementById("weight-group").classList.toggle("hidden", exercise !== "Weightlifting");
+    });
 
-      // Calories = MET × weight (kg) × time (hours)
+    // Trigger change event on page load to set correct visibility
+    document.getElementById("exercise").dispatchEvent(new Event("change"));
+
+    document.getElementById("strength-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const activity = document.getElementById("exercise").value;
+      const duration = parseFloat(document.getElementById("duration").value);
+      const weightInput = document.getElementById("weight");
+      const weight = 55;
       const met = MET_VALUES[activity];
       const durationHours = duration / 60;
       const calories = met * weight * durationHours;
       document.getElementById("calories").value = isNaN(calories) ? "" : calories.toFixed(2);
 
+      // Set difficulty based on weight for Weightlifting, otherwise 1
+      let difficulty = 1;
+      if (activity === "Weightlifting") {
+        const w = parseFloat(weightInput.value);
+        if (!isNaN(w)) {
+          if (w > 90) difficulty = 5;
+          else if (w > 70) difficulty = 4;
+          else if (w > 50) difficulty = 3;
+          else if (w > 30) difficulty = 2;
+          else difficulty = 1;
+        }
+      }
+      document.getElementById("difficulty").value = difficulty;
+
       // Build FormData and send via fetch
-      const form = document.getElementById("cardio-form");
+      const form = document.getElementById("strength-form");
       const formData = new FormData(form);
 
       try {
-        const response = await fetch("/api/log_cardio", {
+        const response = await fetch("/api/log_strength", {
           method: "POST",
           body: formData
         });
         if (response.ok) {
-          // Clear form
           form.reset();
-          // Show success message
           document.getElementById("result").innerText = "Workout logged successfully!";
+          document.getElementById("weight-group").classList.add("hidden");
+          // Reset visibility to default after reset
+          document.getElementById("exercise").dispatchEvent(new Event("change"));
         } else {
           const data = await response.json();
           document.getElementById("result").innerText = data.error || "Failed to log workout.";
