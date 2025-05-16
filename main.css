@@ -310,13 +310,15 @@ body {
   cursor: pointer;
 }
 .btn.primary {
-  background: #000;
+  background: #007aff;
   color: #fff;
+  border: none;
 }
+
 .btn.secondary {
   background: #fff;
-  color: #000;
-  border: 2px solid #000;
+  color: #007aff;
+  border: 2px solid #007aff;
   margin-top: 10px;
 }
 .edit-form {
