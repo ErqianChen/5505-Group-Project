@@ -55,12 +55,15 @@
         #tab-workout a:hover img {
             opacity: 1;
         }
+        #tab-workout h1 {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <!-- Workout Tab -->
     <div id="tab-workout" class="tab active">
-        <h1>WORKOUTS</h1>
+        <h1>Let's Get Moving!</h1>
         
         <div style="display: flex; justify-content: center; width: 100%;">
             <input type="text" placeholder="Search everything here"
@@ -187,7 +190,12 @@
                     <span>My Information</span>
                     <span>&#8250;</span>
                 </li>
-                <li class="option-item"><span>My plan</span><span>&#8250;</span></li>
+                <a href="my_plan/my_plan 1.html" style="text-decoration:none; color:inherit;">
+                    <li class="option-item">
+                        <span>My plan</span>
+                        <span>&#8250;</span>
+                    </li>
+                </a>
                 <li class="option-item"><span>My collection</span><span>&#8250;</span></li>
                 <li class="option-item" id="logout-btn"><span>Logout</span><span>&#8250;</span></li>
             </ul>
