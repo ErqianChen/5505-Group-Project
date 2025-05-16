@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="../favicon.png" type="image/png" />
     <title>Main page</title>
     <!-- Temporarily using flat file layout -->
     <link rel="stylesheet" href="main.css">
@@ -19,22 +20,21 @@
     <!-- Workout Tab -->
     <div id="tab-workout" class="tab active">
         <h1>WORKOUTS</h1>
-        <input type="text" placeholder="Search everything here" style="width: 90%; padding: 10px; border-radius: 20px; border: 1px solid #333;">
-        <div>
-            <a href="workout_page\tutorial.html">
-                <img src="workout1.png" style="width: 100%;" />
-                <p>Workout Videos</p>
-              </a>
-              
-          </div>
-          
-          <div>
-            <a href="workout_page\log.html">
-              <img src="workout3.png" style="width: 100%;" />
-              <p>Log your Workouts</p>
+        
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <input type="text" placeholder="Search everything here"
+                style="width: 90%; max-width: 400px; padding: 10px; border-radius: 20px; border: 1px solid #333;" />
+        </div>
+        
+        <div style="height: 32px;"></div>
+        <div style="display: flex; justify-content: space-between; gap: 4%;">
+            <a href="workout_page/tutorial.html" style="width:48%; display:block;">
+                <img src="workout_tutorials.png" style="width: 100%; border-radius: 12px;" alt="Workout Videos" />
             </a>
-          </div>
-          
+            <a href="workout_page/log.html" style="width:48%; display:block;">
+                <img src="log_workouts.png" style="width: 100%; border-radius: 12px;" alt="Log your Workouts" />
+            </a>
+        </div>
     </div>
 
     <!-- Record Tab -->
