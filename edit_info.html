@@ -6,7 +6,8 @@
     <label>New address</label>
     <input type="text" name="address"  value="{{ user.address }}">
     <label>New avatar</label>
-    <img class="profile-avatar" src="/uploads/{{ user.avatar or 'default.jpg' }}">
+    <img class="profile-avatar"
+      src="{{ url_for('profile_bp.get_avatar', user_id=user.id) }}">
     <input type="file" name="avatar" accept=".jpg,.jpeg,.png">
     <button type="submit" class="btn primary">Save</button>
     <a class="btn secondary" href="{{ url_for('profile_bp.my_info') }}">Back</a>
