@@ -4,208 +4,10 @@
   <meta charset="UTF-8">
   <title>Login | TrainTogether</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at 60% 40%, #1e3c72 60%, #2a5298 100%);
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .nav-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 32px 60px 0 60px;
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-    .nav-bar .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-right: 40px;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-    }
-    .nav-bar .logo-icon {
-      font-size: 2.2rem;
-      margin-right: 10px;
-    }
-    .nav-bar a {
-      color: #fff;
-      text-decoration: none;
-      margin-right: 32px;
-      transition: color 0.2s;
-    }
-    .nav-bar a:hover {
-      color: #7ec9f5;
-    }
-    .main-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      padding: 40px 0 0 0;
-    }
-    .left-panel {
-      max-width: 480px;
-      margin-right: 60px;
-    }
-    .main-title {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 32px;
-      line-height: 1.1;
-    }
-    .login-card {
-      background: rgba(20, 40, 70, 0.92);
-      border-radius: 18px;
-      padding: 36px 32px 28px 32px;
-      box-shadow: 0 4px 32px #0003;
-      width: 350px;
-      margin-top: 24px;
-    }
-    .login-card h2 {
-      margin: 0 0 18px 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    .input-group {
-      margin-bottom: 18px;
-    }
-    .auth-input {
-      width: 100%;
-      padding: 12px 10px;
-      border-radius: 7px;
-      border: none;
-      font-size: 1rem;
-      margin-top: 6px;
-      background: #223a5f;
-      color: #fff;
-      outline: none;
-      box-sizing: border-box;
-    }
-    .auth-input::placeholder {
-      color: #b0c4de;
-      opacity: 1;
-    }
-    .auth-button {
-      width: 100%;
-      padding: 12px 0;
-      background: #3887fe;
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
-    }
-    .auth-button:hover {
-      background: #2563c9;
-    }
-    .auth-alt-link {
-      display: block;
-      margin-top: 14px;
-      color: #b0c4de;
-      text-align: right;
-      font-size: 0.98rem;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .auth-alt-link:hover {
-      color: #7ec9f5;
-    }
-    .signup-link {
-      text-align: center;
-      margin-top: 18px;
-      color: #b0c4de;
-      font-size: 1rem;
-    }
-    .signup-link a {
-      color: #7ec9f5;
-      text-decoration: underline;
-      margin-left: 4px;
-    }
-    .right-panel {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .illustration {
-      width: 420px;
-      max-width: 90vw;
-      height: auto;
-      margin-left: 20px;
-      margin-top: 30px;
-      user-select: none;
-      pointer-events: none;
-    }
-    .footer {
-      width: 100%;
-      text-align: center;
-      padding: 18px 0 12px 0;
-      color: #b0c4de;
-      font-size: 1rem;
-      letter-spacing: 0.2px;
-      background: transparent;
-    }
-    .footer a {
-      color: #b0c4de;
-      margin: 0 16px;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer a:hover {
-      color: #7ec9f5;
-    }
-    @media (max-width: 900px) {
-      .main-section {
-        flex-direction: column;
-        padding: 30px 0 0 0;
-      }
-      .left-panel {
-        margin-right: 0;
-        margin-bottom: 40px;
-        text-align: center;
-      }
-      .illustration {
-        margin-left: 0;
-        margin-top: 0;
-        width: 320px;
-      }
-    }
-    @media (max-width: 600px) {
-      .nav-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 18px 16px 0 16px;
-        font-size: 16px;
-      }
-      .main-title {
-        font-size: 2.1rem;
-      }
-      .login-card {
-        width: 95vw;
-        min-width: 0;
-        padding: 24px 10px 18px 10px;
-      }
-      .footer {
-        font-size: 0.95rem;
-        padding: 12px 0 8px 0;
-      }
-    }
-  </style>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+  <!-- CSS moved to style.css -->
 </head>
-<body>
+<body class="login-page">
  
   <!-- Main Section -->
   <div class="main-section">
@@ -216,9 +18,11 @@
         <form class="auth-form" onsubmit="handleLogin(event)">
           <div class="input-group">
             <input type="text" id="login-username" name="username" class="auth-input" placeholder="Username" required />
+            <label for="login-username">Username</label>
           </div>
           <div class="input-group">
             <input type="password" id="login-password" name="password" class="auth-input" placeholder="Password" required />
+            <label for="login-password">Password</label>
           </div>
           <a href="forgot_password.html" class="auth-alt-link">Forgot password?</a>
           <button type="submit" class="auth-button">Log in</button>
@@ -230,7 +34,6 @@
       </div>
     </div>
     <div class="right-panel">
-      <!-- Illustration (SVG or PNG) -->
       <img src="sport.png" alt="Fitness Illustration" class="illustration" />
     </div>
   </div>

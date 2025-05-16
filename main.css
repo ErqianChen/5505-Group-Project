@@ -207,4 +207,118 @@ body {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  /* For account */
+.profile-header {
+  background-color: #000;
+  color: white;
+  text-align: center;
+  padding: 30px 20px 20px;
+}
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+.profile-header h2 {
+  margin: 5px 0 0;
+  font-size: 22px;
+}
+.coins {
+  color: #fbc02d;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.profile-options {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #000;
+  color: black;
+  cursor: pointer;
+}
+.option-item span:last-child {
+  font-size: 28px;
+  color: #888;
+}
+.info-view {
+  background: #fff;
+  padding: 30px 20px;
+  font-size: 18px;
+}
+.info-view p {
+  margin: 18px 0;
+}
+.btn {
+  display: block;
+  width: 180px;
+  margin: 20px auto 0;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn.primary {
+  background: #000;
+  color: #fff;
+}
+.btn.secondary {
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  margin-top: 10px;
+}
+.edit-form {
+  background: #fff;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.edit-form label {
+  font-size: 20px;
+  margin: 20px 0 8px 0;
+  align-self: flex-start;
+}
+.edit-form input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  background: #eaeaea;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.edit-form input[type="file"] {
+  display: none;
+}
+.edit-form .btn.primary {
+  width: 140px;
+  margin: 10px 0 0 0;
+}
+.edit-form .btn.secondary {
+  width: 140px;
+  margin: 10px 0 0 0;
+}
+@media (max-width: 600px) {
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  .btn, .edit-form .btn.primary, .edit-form .btn.secondary {
+    width: 100%;
+  }
+}
   

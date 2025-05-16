@@ -1,0 +1,28 @@
+<!-- my_info.html -->
+{% extends "main.html" %}
+
+{% block tab_account %}
+  <!-- 顶部黑底头像 + 用户名 + coins -->
+  <div class="profile-header">
+    <img class="profile-avatar"
+         src="/uploads/{{ user.avatar or 'default.jpg' }}">
+    <h2>{{ user.username }}</h2>
+    <p class="coins">coins = {{ user.coins or 66 }}</p>
+  </div>
+
+  <!-- 白底导航列表 -->
+  <div class="profile-options">
+    <a href="{{ url_for('profile_bp.my_info') }}">
+      <div class="option-item">My Information <span>›</span></div>
+    </a>
+    <a href="{{ url_for('plan_bp.my_plan') }}">
+      <div class="option-item">My Plan <span>›</span></div>
+    </a>
+    <a href="{{ url_for('social_bp.collection') }}">
+      <div class="option-item">My Collection <span>›</span></div>
+    </a>
+    <a href="{{ url_for('social_bp.history') }}">
+      <div class="option-item">Browsing History <span>›</span></div>
+    </a>
+  </div>
+{% endblock %}
