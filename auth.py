@@ -90,4 +90,9 @@ def register():
 @auth_bp.route('/api/logout', methods=['POST'])
 def api_logout():
     session.clear()
-    return jsonify({'success': True})
+    response = jsonify({'success': True})
+    # Cache control headers to prevent caching
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response

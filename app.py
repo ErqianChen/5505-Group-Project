@@ -7,8 +7,13 @@ from plan import plan_bp
 
 # Import blueprints
 from auth import auth_bp
+<<<<<<< Updated upstream
 from record import record_bp
 from social import social_bp
+=======
+from record import record_bp, log_cardio, log_strength
+from social.social import social_bp
+>>>>>>> Stashed changes
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')

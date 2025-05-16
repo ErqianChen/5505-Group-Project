@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Plan</title>
+    <link rel="stylesheet" href="../main.css" />
+    <style>
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px; }
+        .plan-list { margin-top: 32px; }
+        .plan-card { background: #f7faff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.07); padding: 18px 24px; margin-bottom: 18px; }
+        .plan-card h3 { margin: 0 0 8px 0; }
+        .plan-card p { margin: 0 0 4px 0; }
+        .add-btn { background: #007aff; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-bottom: 18px; }
+        .modal { display: none; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.3); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #fff; border-radius: 12px; padding: 32px; min-width: 320px; }
+        .modal-content label { display: block; margin: 12px 0 4px; }
+        .modal-content input, .modal-content select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 12px; }
+        .modal-content button { margin-top: 10px; }
+        .back-btn { 
+            position: fixed; 
+            top: 24px;
+            left: 24px; 
+            background: #eee; 
+            border: none; 
+            border-radius: 6px; 
+            padding: 8px 16px; 
+            font-size: 16px; 
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .back-btn:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back button to main page -->
+    <button class="back-btn" onclick="window.location.href='../main.html'">&larr; Back</button>
+    <div class="container">
+        <h1>My Workout Plan</h1>
+        <button class="add-btn" onclick="openModal()">Add Plan +</button>
+        <div class="plan-list" id="plan-list"></div>
+    </div>
+    <!-- Modal for adding a new plan -->
+    <div class="modal" id="plan-modal">
+        <div class="modal-content">
+            <h2>Add Plan</h2>
+            <!-- Plan form: activity dropdown, start/end time, save/cancel -->
+            <form id="plan-form">
+                <label for="activity">Activity</label>
+                <select id="activity" name="activity" required></select>
+                <label for="start_time">Start Time</label>
+                <input type="datetime-local" id="start_time" name="start_time" required />
+                <label for="end_time">End Time</label>
+                <input type="datetime-local" id="end_time" name="end_time" required />
+                <button type="submit">Save</button>
+                <button type="button" onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <script src="my_plan.js"></script>
+</body>
+</html>
+
+

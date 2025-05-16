@@ -1,8 +1,11 @@
 // Fetch CSRF token for AJAX POST requests
 let csrfToken = '';
-fetch('/api/csrf-token').then(res => res.json()).then(data => {
-    csrfToken = data.csrf_token;
-});
+fetch('/api/csrf-token')
+    .then(res => res.json())
+    .then(data => {
+        csrfToken = data.csrf_token;
+    })
+    .catch(err => console.error('Failed to fetch CSRF token:', err));
 
 // Render posts to #post-list
 function renderPosts(posts) {
@@ -35,9 +38,16 @@ function renderPosts(posts) {
 // Load posts from backend
 function loadPosts() {
     fetch('/api/posts')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to load posts');
+            return res.json();
+        })
         .then(posts => {
             renderPosts(posts);
+        })
+        .catch(err => {
+            console.error('Error loading posts:', err);
+            alert('Failed to load posts. Please try again later.');
         });
 }
 
@@ -50,13 +60,31 @@ function submitPost(content) {
             'X-CSRFToken': csrfToken
         },
         body: JSON.stringify({ content })
-    }).then(res => res.json()).then(data => {
-        if (data.success) loadPosts();
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to create post');
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            loadPosts();
+        } else {
+            throw new Error(data.error || 'Failed to create post');
+        }
+    })
+    .catch(err => {
+        console.error('Error creating post:', err);
+        alert('Failed to create post. Please try again later.');
     });
 }
 
 // Submit a comment
 function submitComment(postId, text) {
+    if (!text.trim()) {
+        alert('Comment cannot be empty');
+        return;
+    }
+
     fetch(`/api/posts/${postId}/comments`, {
         method: 'POST',
         headers: {
@@ -64,8 +92,21 @@ function submitComment(postId, text) {
             'X-CSRFToken': csrfToken
         },
         body: JSON.stringify({ text })
-    }).then(res => res.json()).then(data => {
-        if (data.success) loadPosts();
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to submit comment');
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            loadPosts();
+        } else {
+            throw new Error(data.error || 'Failed to submit comment');
+        }
+    })
+    .catch(err => {
+        console.error('Error submitting comment:', err);
+        alert('Failed to submit comment. Please try again later.');
     });
 }
 
@@ -76,8 +117,21 @@ function likePost(postId) {
         headers: {
             'X-CSRFToken': csrfToken
         }
-    }).then(res => res.json()).then(data => {
-        loadPosts();
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to like/unlike post');
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            loadPosts();
+        } else {
+            throw new Error(data.error || 'Failed to like/unlike post');
+        }
+    })
+    .catch(err => {
+        console.error('Error liking/unliking post:', err);
+        alert('Failed to update like. Please try again later.');
     });
 }
 
@@ -102,7 +156,20 @@ function bookmarkPost(postId) {
         headers: {
             'X-CSRFToken': csrfToken
         }
-    }).then(res => res.json()).then(data => {
-        loadPosts();
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to bookmark/unbookmark post');
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            loadPosts();
+        } else {
+            throw new Error(data.error || 'Failed to bookmark/unbookmark post');
+        }
+    })
+    .catch(err => {
+        console.error('Error bookmarking/unbookmarking post:', err);
+        alert('Failed to update bookmark. Please try again later.');
     });
 }

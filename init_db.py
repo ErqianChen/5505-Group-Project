@@ -147,6 +147,7 @@ def init_db():
             )
             db.session.add(com)
 
+<<<<<<< Updated upstream
     # Seed likes
     for u in users:
         for pid in range(1, 4):
@@ -166,6 +167,26 @@ def init_db():
                 created_at=datetime.utcnow()
             )
             db.session.add(bm)
+=======
+    # Randomly generate likes, comments, and bookmarks
+    for post in posts:
+        # Random likes
+        like_users = random.sample(users, random.randint(1, min(5, len(users))))
+        for u in like_users:
+            db.session.add(Like(user_id=u.id, post_id=post.id, created_at=datetime.utcnow()))
+        # Random bookmarks
+        bookmark_users = random.sample(users, random.randint(1, min(5, len(users))))
+        for u in bookmark_users:
+            db.session.add(Bookmark(user_id=u.id, post_id=post.id, created_at=datetime.utcnow()))
+        # Random comments
+        for _ in range(random.randint(1, 5)):
+            commenter = random.choice(users)
+            text = random.choice([
+                "Great job!", "Amazing progress!", "Keep it up!", "Love this!", "So inspiring!", "Nice work!", "🔥🔥🔥"
+            ])
+            db.session.add(Comment(user_id=commenter.id, post_id=post.id, content=text, created_at=datetime.utcnow() - timedelta(hours=random.randint(0, 48))))
+    db.session.commit()
+>>>>>>> Stashed changes
 
     db.session.commit()
     print("Database initialized with mock data.")

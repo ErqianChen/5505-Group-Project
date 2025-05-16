@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Bookmarks</title>
+  <link rel="stylesheet" href="../main.css">
+  <link rel="stylesheet" href="../social/social.css">
+  <style>
+    .back-btn { position: absolute; top: 24px; left: 24px; background: #eee; border: none; border-radius: 6px; padding: 8px 16px; font-size: 16px; cursor: pointer; }
+    .tab.active { padding:40px 20px;max-width:720px;margin:auto; }
+  </style>
+</head>
+<body>
+  <!-- Back button to main page -->
+  <button class="back-btn" onclick="window.location.href='../main.html'">&larr; Back</button>
+  <div class="tab active">
+    <h1 style="margin-bottom:20px;">My Bookmarks</h1>
+    <div id="post-list"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="my_bookmarks.js"></script>
+  <script>
+    // Load only bookmarked posts for the current user
+    window.addEventListener('DOMContentLoaded', function() {
+      loadBookmarkedPosts();
+    });
+  </script>
+</body>
+</html>

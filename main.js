@@ -48,17 +48,30 @@ $(document).ready(function() {
     });
 
     $('#logout-btn').on('click', function() {
-    $.ajax({
-      url: '/api/logout',
-      type: 'POST',
-      success: function() {
-        window.location.href = '/';
-      },
-      error: function() {
-        alert('Logout failed.');
-      }
+        $.ajax({
+            url: '/api/logout',
+            type: 'POST',
+            success: function(response, status, xhr) {
+                // Clear browser's forward/back cache
+                window.location.replace('/');
+            },
+            error: function() {
+                alert('Logout failed.');
+            }
+        });
     });
+<<<<<<< Updated upstream
   });
+=======
+
+    // Auto-sync username and avatar in Account section
+    if ($('#tab-account').length > 0) {
+        $.get('/api/account/info', function(data) {
+            $('#account-avatar').attr('src', 'profile_pic.jpg');
+            $('#account-username').text(data.username);
+        });
+    }
+>>>>>>> Stashed changes
 });
 
 
@@ -187,11 +200,23 @@ function fetchLeaderboard(range) {
 
 // Fetch and render post of main account page
 function showAccountMain() {
+<<<<<<< Updated upstream
+=======
+  // Force use of profile_pic.jpg as avatar
+  $('#account-avatar').attr('src', 'profile_pic.jpg');
+>>>>>>> Stashed changes
   $.get('/api/account/info', function(data) {
     const avatarUrl = `${data.avatar}?t=${Date.now()}`;
     $('#account-avatar').attr('src', avatarUrl);
     $('#account-username').text(data.username);
+<<<<<<< Updated upstream
     $('#account-coins').text(data.coins || 0);
+=======
+    // Sync avatar and username in info view
+    $('#info-avatar').attr('src', 'profile_pic.jpg');
+    $('#info-username').text(data.username);
+    $('#info-username-detail').text(data.username);
+>>>>>>> Stashed changes
     $('#account-main-view').show();
     $('#account-info-view').hide();
     $('#account-edit-view').hide();
@@ -202,6 +227,11 @@ function showAccountMain() {
 
 // Fetch and render post of 'my' page
 function showMyInfo() {
+<<<<<<< Updated upstream
+=======
+    // Force use of profile_pic.jpg as avatar
+    $('#info-avatar').attr('src', 'profile_pic.jpg');
+>>>>>>> Stashed changes
     $.get('/api/account/info', function(data) {
         $('#info-avatar').attr('src', data.avatar || '/uploads/default.jpg');
         $('#info-username').text(data.username);
@@ -210,7 +240,13 @@ function showMyInfo() {
         $('#info-email').text(data.email || 'Not set');
         $('#info-address').text(data.address || 'Not set');
         $('#info-coins').text(data.coins || 0);
+<<<<<<< Updated upstream
 
+=======
+        // Also sync main page avatar and username
+        $('#account-avatar').attr('src', 'profile_pic.jpg');
+        $('#account-username').text(data.username);
+>>>>>>> Stashed changes
         $('#account-main-view').hide();
         $('#account-info-view').show();
         $('#account-edit-view').hide();
