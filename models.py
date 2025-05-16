@@ -21,6 +21,11 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    nickname = db.Column(db.String(80), default='Not set')
+    address = db.Column(db.String(200), default='Not set')
+    avatar = db.Column(db.LargeBinary)
+    avatar_mimetype  = db.Column(db.String(50))
+    coins = db.Column(db.Integer, default=0)
 
     records = db.relationship('WorkoutRecord', back_populates='user', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
@@ -70,25 +75,37 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-    post_id = db.Column(db.Integer, nullable=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='comments')
+    # post = db.relationship('Post', back_populates='comments')  # 可选
 
 class Like(db.Model):
     __tablename__ = 'likes'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    post_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='likes')
+    # post = db.relationship('Post', back_populates='likes')  # 可选
 
 class Bookmark(db.Model):
     __tablename__ = 'bookmarks'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    post_id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     user = db.relationship('User', back_populates='bookmarks')
+    # post = db.relationship('Post', back_populates='bookmarks')  # 可选
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship('User', backref='posts')
+    comments = db.relationship('Comment', backref='post', cascade='all, delete-orphan', foreign_keys='Comment.post_id')
+    likes = db.relationship('Like', backref='post', cascade='all, delete-orphan', foreign_keys='Like.post_id')
+    bookmarks = db.relationship('Bookmark', backref='post', cascade='all, delete-orphan', foreign_keys='Bookmark.post_id')
 
