@@ -8,14 +8,17 @@
   <link rel="stylesheet" href="../main.css" />
   <style>
     body {
-      font-family: sans-serif;
-      background: #f0f2f5;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+      min-height: 100vh;
       margin: 0;
-      padding: 20px;
+      padding: 20px 0 0 0;
+      padding-bottom: 90px; /* More space for nav-bar */
     }
     .container {
       max-width: 800px;
       margin: auto;
+      padding-top: 60px;
     }
     .back-button {
       position: fixed;
@@ -39,10 +42,19 @@
       text-align: center;
     }
     form {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       padding: 30px;
+      transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+    }
+    form:hover {
+      box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+      background: rgba(255, 255, 255, 0.50);
+      transform: translateY(-5px) scale(1.03);
     }
     label {
       display: block;
@@ -67,6 +79,7 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s;
     }
     button:hover {
       background-color: #005bb5;
@@ -81,6 +94,17 @@
       height: 56px;
     }
     .hidden { display: none; }
+    .nav-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 56px;
+      background: #fff;
+      display: flex;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      z-index: 200;
+    }
   </style>
 </head>
 <body>

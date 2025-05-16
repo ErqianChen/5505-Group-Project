@@ -15,6 +15,47 @@
     <!-- jQuery and Chart.js libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            /* Light blue glassy background */
+            background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        /* Glassmorphism card style */
+        .card, .post-card, .metrics-cards > .card, form, .charts-container, .profile-header, .info-view, .edit-form {
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+        .card:hover, .post-card:hover, .metrics-cards > .card:hover, form:hover, .charts-container:hover, .profile-header:hover, .info-view:hover, .edit-form:hover {
+            box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+            background: rgba(255, 255, 255, 0.50);
+        }
+        /* Optional: add some padding and margin for cards */
+        .card, .post-card, .metrics-cards > .card, form {
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        /* Make sure main containers have no solid background */
+        #tab-workout, #tab-record, #tab-social, #tab-account {
+            background: none;
+        }
+        /* Make images more transparent, restore on hover */
+        #tab-workout img {
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+        #tab-workout a:hover img {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <!-- Workout Tab -->
