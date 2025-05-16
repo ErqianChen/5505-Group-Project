@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, redirect, request, session, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 from flask_wtf.csrf import generate_csrf
@@ -60,4 +60,28 @@ def reset_password():
         return jsonify({'success': False, 'error': 'User not found'}), 404
     user.password_hash = generate_password_hash(new_password)
     db.session.commit()
+    return jsonify({'success': True})
+
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    # Check if username or email already exists
+    new_user = User(
+        username=username,
+        email=email,
+        nickname='Not set',
+        address='Not set',
+        avatar='default.jpg',
+        coins=0
+    )
+    new_user.set_password(password)
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect(url_for('auth_bp.login'))
+
+@auth_bp.route('/api/logout', methods=['POST'])
+def api_logout():
+    session.clear()
     return jsonify({'success': True})
