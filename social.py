@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request, session, url_for, render_template, redirect
 from models import db, User, Post, Comment, Like, Bookmark
 from datetime import datetime
 
@@ -99,3 +99,31 @@ def bookmark_post(post_id):
 def get_users():
     users = User.query.all()
     return jsonify([{'id': u.id, 'username': u.username} for u in users])
+
+@social_bp.route('/collection')
+def collection():
+    uid = session.get('user_id')
+    if not uid:
+        return redirect(url_for('auth_bp.login'))
+    return render_template('social_collection.html')
+
+@social_bp.route('/api/posts/bookmarked')
+def api_bookmarked_posts():
+    uid = session.get('user_id')
+    if not uid:
+        return jsonify({'error':'Unauthorized'}), 401
+    bookmarks = Bookmark.query.filter_by(user_id=uid).all()
+    posts = [bm.post for bm in bookmarks]
+    data = [{
+
+        'id': p.id,
+        'username': p.user.username,
+        'timestamp': p.created_at.strftime('%Y-%m-%d %H:%M'),
+        'content': p.content,
+        'likes': len(p.likes),
+        'comments': [{'username':c.user.username, 'text':c.content} for c in p.comments],
+        'bookmarks': len(p.bookmarks),
+        'is_bookmarked': True
+        
+    } for p in sorted(posts, key=lambda x: x.created_at, reverse=True)]
+    return jsonify(data)
