@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="../favicon.png" type="image/png" />
+    <title>Main page</title>
+    <!-- Temporarily using flat file layout -->
+    <link rel="stylesheet" href="main.css">
+    <!-- Add social styles -->
+    <link rel="stylesheet" href="social/social.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+
+    <!-- jQuery and Chart.js libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            /* Light blue glassy background */
+            background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        /* Glassmorphism card style */
+        .card, .post-card, .metrics-cards > .card, form, .charts-container, .profile-header, .info-view, .edit-form {
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+        .card:hover, .post-card:hover, .metrics-cards > .card:hover, form:hover, .charts-container:hover, .profile-header:hover, .info-view:hover, .edit-form:hover {
+            box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+            background: rgba(255, 255, 255, 0.50);
+        }
+        /* Optional: add some padding and margin for cards */
+        .card, .post-card, .metrics-cards > .card, form {
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        /* Make sure main containers have no solid background */
+        #tab-workout, #tab-record, #tab-social, #tab-account {
+            background: none;
+        }
+        /* Make images more transparent, restore on hover */
+        #tab-workout img {
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+        #tab-workout a:hover img {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Workout Tab -->
+    <div id="tab-workout" class="tab active">
+        <h1>WORKOUTS</h1>
+        
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <input type="text" placeholder="Search everything here"
+                style="width: 90%; max-width: 400px; padding: 10px; border-radius: 20px; border: 1px solid #333;" />
+        </div>
+        
+        <div style="height: 32px;"></div>
+        <div style="display: flex; justify-content: space-between; gap: 4%;">
+            <a href="workout_page/tutorial.html" style="width:48%; display:block;">
+                <img src="workout_tutorials.png" style="width: 100%; border-radius: 12px;" alt="Workout Videos" />
+            </a>
+            <a href="workout_page/log.html" style="width:48%; display:block;">
+                <img src="log_workouts.png" style="width: 100%; border-radius: 12px;" alt="Log your Workouts" />
+            </a>
+        </div>
+    </div>
+
+    <!-- Record Tab -->
+    <div id="tab-record" class="tab">
+        <h1>WORKOUTS RECORD</h1>
+
+        <!-- Time range selector -->
+        <div class="record-controls">
+            <label for="record-range-select">Please Select Time Range:</label>
+            <select id="record-range-select">
+                <option value="week">Last Week</option>
+                <option value="month">Last Month</option>
+            </select>
+        </div>
+
+        <!-- Four metric cards (analysis) -->
+        <div class="metrics-cards">
+            <div class="card" style="cursor: pointer;" title="How many days in a row you've logged at least one workout">
+                <h4>Workout Streak</h4>
+                <p id="streak-count">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Total calories you've burned in the selected time range">
+                <h4>Total Calories Burnt (Cal)</h4>
+                <p id="total-calories">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Total hours you've exercised in the selected time range">
+                <h4>Total Workout Hours (H)</h4>
+                <p id="total-hours">--</p>
+            </div>
+            <div class="card" style="cursor: pointer;" title="Percentage of users whose workout hours you exceed">
+                <h4>Your Percentile</h4>
+                <p id="percentile">--</p>
+            </div>
+        </div>
+
+        <!-- Three charts (visualisation) -->
+        <div class="charts-container">
+            <div class="chart-item">
+                <canvas id="line-chart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="pie-chart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="radar-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Leaderboard Header with Toggle Button -->
+        <div class="leaderboard-container collapsed" id="leaderboard-container">
+            <div class="leaderboard-header" style="display: flex; justify-content: flex-start; align-items: center;">
+                <h2 style="margin:0; padding-right:8px;">Calories Leaderboard</h2>
+                <button id="toggle-leaderboard-btn" style="margin: 0 0 0 8px;">Show All Rankings</button>
+            </div>
+            <br>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Calories</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Social Tab (Integrated from social.html) -->
+    <div id="tab-social" class="tab">
+        <h1>FRIENDS' MOMENTS</h1>
+        
+        <!-- Post creation form -->
+        <div class="card post-card" style="margin-bottom: 30px;">
+            <h4 style="margin-bottom: 10px; font-size: 18px; color: #333;">Create a Post</h4>
+            
+            <textarea id="new-post-content"
+                placeholder="What's on your mind?"
+                style="width: 100%; height: 80px; padding: 10px;
+                       border-radius: 8px; border: 1px solid #ccc;
+                       font-size: 15px; resize: vertical;"></textarea>
+            
+            <div style="margin-top: 12px;">
+                <label for="new-post-image" style="font-size: 14px; color: #555;">Upload an image (optional):</label><br>
+                <input type="file" id="new-post-image" accept="image/*" style="margin-top: 5px;">
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button class="post-button">Post</button>
+            </div>
+        </div>
+        
+        <!-- Posts list container -->
+        <div id="post-list">
+            <!-- Posts will be dynamically loaded here by social.js -->
+        </div>
+    </div>
+
+     <!-- Account Tab  -->
+    <div id="tab-account" class="tab">
+        <!-- Main page -->
+        <div id="account-main-view">
+            <div class="profile-header">
+                <img class="profile-avatar" id="account-avatar" src="profile_pic.jpg">
+                <h2 id="account-username">Username</h2>
+                <!-- coins display removed -->
+            </div>
+            <ul class="profile-options">
+                <li class="option-item" onclick="showMyInfo()">
+                    <span>My Information</span>
+                    <span>&#8250;</span>
+                </li>
+                <li class="option-item" onclick="window.location.href='my_plan/my_plan.html'">
+                    <span>My plan</span>
+                    <span>&#8250;</span>
+                </li>
+                <li class="option-item" onclick="window.location.href='my_bookmarks/my_bookmarks.html'">
+                    <span>My Bookmarks</span>
+                    <span>&#8250;</span>
+                </li>
+                <li class="option-item" id="logout-btn"><span>Logout</span><span>&#8250;</span></li>
+            </ul>
+        </div>
+        <!--My information -->
+        <div id="account-info-view" style="display:none;">
+            <div class="profile-header">
+                <img class="profile-avatar" id="info-avatar" src="profile_pic.jpg">
+                <h2 id="info-username">Username</h2>
+                <!-- coins display removed -->
+            </div>
+            <div class="info-view">
+                <p><strong>User name:</strong> <span id="info-username-detail">Username</span></p>
+                <p><strong>nickname:</strong> <span id="info-nickname">nickname</span></p>
+                <p><strong>email:</strong> <span id="info-email">email@example.com</span></p>
+                <p><strong>address:</strong> <span id="info-address">address</span></p>
+                <button class="btn primary" onclick="showEditInfo()">update info</button>
+                <button class="btn secondary" onclick="showAccountMain()">back</button>
+            </div>
+        </div>
+        <!-- edit page -->
+        <div id="account-edit-view" style="display:none;">
+            <div class="profile-header">
+                <img class="profile-avatar" id="edit-avatar-preview" src="profile_pic.jpg">
+                <h2 id="edit-username">Username</h2>
+                <!-- coins display removed -->
+            </div>
+            <form class="edit-form" id="edit-info-form">
+                <label for="edit-nickname"><b>New nickname</b></label>
+                <input type="text" name="nickname" id="edit-nickname" placeholder="New nickname">
+                <label for="edit-address"><b>New address</b></label>
+                <input type="text" name="address" id="edit-address" placeholder="New address">
+                <label class="btn primary" style="display:inline-block; width:140px; text-align:center; cursor:pointer;">
+                    New avatar
+                    <input type="file"
+                           id="edit-avatar"
+                           name="avatar"
+                           accept=".jpg,.jpeg,.png"
+                           hidden>
+                </label>
+                <button type="submit" class="btn primary" style="margin-top:20px;">Save</button>
+                <button type="button" class="btn secondary" onclick="showMyInfo()" style="margin-top:10px;">back</button>
+            </form>
+        </div>
+    </div>
+
+     <!-- Bottom Navigation -->
+    <div class="nav-bar">
+        <div class="nav-item" onclick="switchTab('workout')">Workout</div>
+        <div class="nav-item" onclick="switchTab('record')">Record</div>
+        <div class="nav-item" onclick="switchTab('social')">Social</div>
+        <div class="nav-item" onclick="switchTab('account')">Account</div>
+    </div>
+
+     <!-- Main JS script -->
+    <script src="social/social.js"></script>
+    <!-- Add social JS -->
+    <script src="main.js"></script>
+</body>
+</html>

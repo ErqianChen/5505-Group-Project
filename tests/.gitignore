@@ -1,0 +1,14 @@
+# Ignore database files
+*.db
+app.db
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Ignore environment files (if any)
+.env

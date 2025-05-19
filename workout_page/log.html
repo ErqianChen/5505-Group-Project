@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="../favicon.png" type="image/png" />
+  <title>Workout Logs</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../main.css" />
+  <style>
+    /* independent design and main.css */
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .card-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      width: 300px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      color: #007aff;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    .nav-bar-spacer {
+      height: 56px;
+    }
+    /* Fixed back button style, same as tutorial_cardio.html */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 201;
+    }
+    .back-button a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #007aff;
+      font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="back-button">
+    <a href="../main.html">&larr; Back</a>
+  </div>
+  <div class="container">
+    <h2 class="section-title">What do we want to do today?</h2>
+    <div class="card-section">
+      <a href="cardio.html" class="card">Cardio</a>
+      <a href="strength.html" class="card">Strength</a>
+    </div>
+  </div>
+  <div class="nav-bar-spacer"></div>
+  <!-- navbar main.css -->
+  <div class="nav-bar">
+    <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+  </div>
+  <script src="../main.js"></script>
+</body>
+</html>

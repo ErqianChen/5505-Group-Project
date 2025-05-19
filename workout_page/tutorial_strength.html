@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="../favicon.png" type="image/png" />
+    <title>Strength Workout Tutorials</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 0 0 0;
+            padding-bottom: 90px; /* More space for nav-bar */
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 201;
+        }
+        .back-button a {
+            text-decoration: none;
+            font-size: 16px;
+            color: #007aff;
+            font-weight: bold;
+        }
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 36px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .card-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .card-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .video-card {
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 250px;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 6px 12px 6px;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+        }
+        .video-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+            background: rgba(255, 255, 255, 0.50);
+        }
+        .video-card h2 {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+        .video-responsive {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+        }
+        .video-responsive iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+        }
+        .video-card img {
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+        .video-card:hover img {
+            opacity: 1;
+        }
+        @media (max-width: 900px) {
+            .container {
+                padding-top: 48px;
+            }
+            .video-card {
+                width: 95%;
+                min-width: 0;
+                padding: 8px 2px 8px 2px;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+            .card-row {
+                gap: 12px;
+            }
+        }
+        @media (max-width: 800px) {
+            .card-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 18px;
+            }
+            .video-card {
+                width: 98%;
+            }
+        }
+        .nav-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 56px;
+            background: #fff;
+            display: flex;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+            z-index: 200;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-button">
+        <a href="tutorial.html">&larr; Back</a>
+    </div>
+    <div class="container">
+        <h2 class="section-title">Strength Workout Tutorials</h2>
+        <div class="card-section">
+            <div class="card-row">
+                <div class="video-card">
+                    <h2>Yoga</h2>
+                    <div class="video-responsive">
+                        <iframe src="https://www.youtube.com/embed/aUgtMaAZzW0?start=2437" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <h2>Weightlifting</h2>
+                    <div class="video-responsive">
+                        <iframe src="https://www.youtube.com/embed/IcCGLoNqN2U" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="card-row">
+                <div class="video-card">
+                    <h2>HIIT</h2>
+                    <div class="video-responsive">
+                        <iframe src="https://www.youtube.com/embed/dNJ2gG-Jud4?start=13" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+        <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up | TrainTogether</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="main-section">
+    <div class="left-panel">
+      <div class="main-title">Join the community</div>
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <form class="auth-form" onsubmit="handleSignup(event)">
+          <div class="input-group">
+            <input type="text" id="signup-username" name="username" class="auth-input" placeholder="Username" required />
+            <label for="signup-username">Username</label>
+          </div>
+          <div class="input-group">
+            <input type="email" id="signup-email" name="email" class="auth-input" placeholder="Email" required />
+            <label for="signup-email">Email</label>
+          </div>
+          <div class="input-group">
+            <input type="password" id="signup-password" name="password" class="auth-input" placeholder="Password" required />
+            <label for="signup-password">Password</label>
+          </div>
+          <button type="submit" class="auth-button">Sign Up</button>
+        </form>
+        <a href="login.html" class="auth-alt-link">Already have an account? Log In</a>
+        <a href="forgot_password.html" class="auth-alt-link">Forgot password?</a>
+      </div>
+    </div>
+    <div class="right-panel">
+      <!-- No illustration on signup page -->
+    </div>
+  </div>
+  <script>
+    let csrfToken = '';
+    // Fetch CSRF token on page load
+    fetch('/api/csrf-token').then(res => res.json()).then(data => {
+      csrfToken = data.csrf_token;
+    });
+
+    function validatePassword(password) {
+      // Minimum 6 characters
+      if(password.length < 6) {
+        return 'Password must be at least 6 characters long';
+      }
+      return null; // Password is valid
+    }
+
+    async function handleSignup(event) {
+      event.preventDefault();
+      const username = document.getElementById('signup-username').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      // Password validation
+      const validationError = validatePassword(password);
+      if (validationError) {
+        alert(validationError);
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+
+      // Username validation
+      if (username.length < 3) {
+        alert('Username must be at least 3 characters long');
+        return;
+      }
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        alert('Username can only contain letters, numbers and underscores');
+        return;
+      }
+
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ username, email, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Signup successful! Please login.');
+        window.location.href = 'login.html';
+      } else {
+        alert('Signup failed: ' + (data.error || 'Unknown error'));
+      }
+    }
+  </script>
+</body>
+</html>

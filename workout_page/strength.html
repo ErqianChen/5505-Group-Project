@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="../favicon.png" type="image/png" />
+  <title>Log Strength Workout</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../main.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #cbe7fa 0%, #e3f1fb 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px 0 0 0;
+      padding-bottom: 90px; /* More space for nav-bar */
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding-top: 60px;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 201;
+    }
+    .back-button a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #007aff;
+      font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    form {
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 30px;
+      transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+    }
+    form:hover {
+      box-shadow: 0 12px 36px 0 rgba(31, 38, 135, 0.28);
+      background: rgba(255, 255, 255, 0.50);
+      transform: translateY(-5px) scale(1.03);
+    }
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 24px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007aff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+      text-align: center;
+    }
+    .nav-bar-spacer {
+      height: 56px;
+    }
+    .hidden { display: none; }
+    .nav-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 56px;
+      background: #fff;
+      display: flex;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      z-index: 200;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back-button">
+      <a href="log.html">← Back</a>
+    </div>
+    <h2>Log Strength Workout</h2>
+    <form id="strength-form" action="/api/log_strength" method="POST">
+      <label for="exercise">Exercise</label>
+      <select id="exercise" name="activity" required>
+        <option value="Weightlifting">Weightlifting</option>
+        <option value="Yoga">Yoga</option>
+        <option value="HIIT">HIIT</option>
+      </select>
+
+      <div id="weight-group" class="hidden">
+        <label for="weight">Weight (kg)</label>
+        <input id="weight" type="number" min="0" step="1" />
+      </div>
+
+      <label for="duration">Duration (minutes)</label>
+      <input id="duration" type="number" name="duration" min="1" required />
+
+      <input id="calories" type="hidden" name="calories" value="" />
+      <input id="difficulty" type="hidden" name="difficulty" value="1" />
+
+      <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+  <div class="nav-bar-spacer"></div>
+  <div class="nav-bar">
+    <div class="nav-item" onclick="window.location.href='../main.html'">Workout</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-record'">Record</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-social'">Social</div>
+    <div class="nav-item" onclick="window.location.href='../main.html#tab-account'">Account</div>
+  </div>
+  <script>
+    // MET values for each exercise
+    const MET_VALUES = {
+      Weightlifting: 6.0,
+      Yoga: 3.0,
+      HIIT: 10.0
+    };
+
+    // Show/hide weight input based on exercise selection
+    document.getElementById("exercise").addEventListener("change", function () {
+      const exercise = this.value;
+      document.getElementById("weight-group").classList.toggle("hidden", exercise !== "Weightlifting");
+    });
+
+    // Trigger change event on page load to set correct visibility
+    document.getElementById("exercise").dispatchEvent(new Event("change"));
+
+    document.getElementById("strength-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const activity = document.getElementById("exercise").value;
+      const duration = parseFloat(document.getElementById("duration").value);
+      const weightInput = document.getElementById("weight");
+      const weight = 55;
+      const met = MET_VALUES[activity];
+      const durationHours = duration / 60;
+      const calories = met * weight * durationHours;
+      document.getElementById("calories").value = isNaN(calories) ? "" : calories.toFixed(2);
+
+      // Set difficulty based on weight for Weightlifting, otherwise 1
+      let difficulty = 1;
+      if (activity === "Weightlifting") {
+        const w = parseFloat(weightInput.value);
+        if (!isNaN(w)) {
+          if (w > 90) difficulty = 5;
+          else if (w > 70) difficulty = 4;
+          else if (w > 50) difficulty = 3;
+          else if (w > 30) difficulty = 2;
+          else difficulty = 1;
+        }
+      }
+      document.getElementById("difficulty").value = difficulty;
+
+      // Build FormData and send via fetch
+      const form = document.getElementById("strength-form");
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch("/api/log_strength", {
+          method: "POST",
+          body: formData
+        });
+        if (response.ok) {
+          form.reset();
+          document.getElementById("result").innerText = "Workout logged successfully!";
+          document.getElementById("weight-group").classList.add("hidden");
+          // Reset visibility to default after reset
+          document.getElementById("exercise").dispatchEvent(new Event("change"));
+        } else {
+          const data = await response.json();
+          document.getElementById("result").innerText = data.error || "Failed to log workout.";
+        }
+      } catch (err) {
+        document.getElementById("result").innerText = "Network error.";
+      }
+    });
+  </script>
+</body>
+</html>
