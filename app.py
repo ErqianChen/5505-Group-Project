@@ -7,17 +7,12 @@ from plan import plan_bp
 
 # Import blueprints
 from auth import auth_bp
-<<<<<<< Updated upstream
-from record import record_bp
-from social import social_bp
-=======
 from record import record_bp, log_cardio, log_strength
-from social.social import social_bp
->>>>>>> Stashed changes
+from social import social_bp
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
-#Upload Configuration
+# Upload Configuration
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 app.config['UPLOAD_FOLDER'] = os.path.join(BASEDIR, 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024    # 5 MB limited
